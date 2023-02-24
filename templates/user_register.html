@@ -8,31 +8,20 @@
             <span class="form-label fromlabelregister">Sign Up</span>
             <hr class="hr" />
             <br />
-            <from action="" method="post" class="was-validated">
+            <from action="{% url 'usersign' %}" method="post" class="was-validated">
               <input
                 type="text"
                 class="form-control"
-                placeholder="Name Here..."
-                name="uname"
+                placeholder="First name Here..."
+                name="ufirstname"
                 required
               />
               <br />
-              <select
-                class="form-select"
-                aria-label="Default select example"
-                required
-              >
-                <option selected>Open this select menu</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
-              <br />
               <input
                 type="text"
                 class="form-control"
-                placeholder="Phone no. Here..."
-                name="uphone"
+                placeholder="Last name Here..."
+                name="ulastname"
                 required
               />
               <br />
@@ -56,7 +45,7 @@
                 type="password"
                 class="form-control"
                 placeholder="password..."
-                name="username"
+                name="userpass1"
                 required
               />
               <br />
@@ -64,11 +53,11 @@
                 type="password"
                 class="form-control"
                 placeholder="confirm password..."
-                name="userpass"
+                name="userpass2"
                 required
               />
               <br />
-              <button type="submit" class="btn btn-success">Signup</button>
+              <button type="submit" class="btn btn-success">SignUp</button>
             </from>
           </div>
         </center>
