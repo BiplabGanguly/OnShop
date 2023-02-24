@@ -1,7 +1,73 @@
-/* body{
-    background-color: black;
-} */
+*{
+    margin: 0px;
+    padding: 0px;
+}
 
-h2{
-    color: green;
+/* login...... */
+.login-container{
+    margin-top: 20vh;
+    height: 60vh;
+}
+
+.login-panel{
+    background-color:#34495E;
+    height: 60vh;
+    border-radius: 10%;
+}
+
+.loginform{
+    padding-top: 1vh;
+    width: 70vh;
+}
+
+.fromlabel{
+    color: white;
+    font-size: 5vh;
+}
+.hr{
+    color: white;
+}
+
+.forgotpassword{
+    color: #D7DBDD;
+    text-align: right;
+    margin-right: 4vh;
+}
+
+.register_hyper{
+    color: #D7DBDD;
+    margin-left: 4vh;
+}
+
+.register_link{
+    color:white;
+}
+
+
+/* register....... */
+
+.register_con{
+    margin-top: 10vh;
+    height: 60vh;
+}
+
+.register_panel{
+    background-color:#34495E;
+    height: 80vh;
+    border-radius: 5%;
+}
+
+.registerform{
+    padding-top: 1vh;
+    width: 80vh;
+}
+
+.login_link{
+    color: black;
+    border-bottom: 1px solid white;
+}
+
+.fromlabelregister{
+    color: purple;
+    font-size: 5vh;
 }

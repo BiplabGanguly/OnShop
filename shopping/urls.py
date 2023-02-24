@@ -19,5 +19,6 @@ from shopping import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.userinterface,name="userinterface"),
+    path('',views.userlogin,name="userlogin"),
+    path('register/',views.user_register,name="register"),
 ]

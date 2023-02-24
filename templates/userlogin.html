@@ -1,0 +1,48 @@
+{%extends 'template.html'%} {%block content%}
+<div class="container login-container">
+  <div class="row">
+    <div class="offset-md-3 col-md-6 login">
+      <div class="login-panel">
+        <center>
+          <div class="loginform">
+            <span class="form-label fromlabel">Log In</span>
+            <hr class="hr" />
+            <br />
+            <from action="" method="post" class="was-validated">
+              <input
+                type="email"
+                class="form-control"
+                placeholder="Email Here..."
+                name="useremail"
+                required
+              />
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                placeholder="username..."
+                name="username"
+                required
+              />
+              <br />
+              <input
+                type="password"
+                class="form-control"
+                placeholder="password..."
+                name="userpass"
+                required
+              />
+              <p class="forgotpassword">forgot password?</p>
+              <button type="submit" class="btn btn-primary">Login</button>
+            </from>
+          </div>
+        </center>
+        <p class="register_hyper">
+          click Here for new
+          <a href="{%url 'register'%}" class="register_link">Register</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}
