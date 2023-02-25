@@ -71,3 +71,14 @@
     color: purple;
     font-size: 5vh;
 }
+
+
+/* navbar */
+
+.navbar-nav{
+    margin-left: 220vh;
+}
+
+.navbar{
+    background-color:#34495E;
+}

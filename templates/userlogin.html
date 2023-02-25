@@ -8,12 +8,16 @@
             <span class="form-label fromlabel">Log In</span>
             <hr class="hr" />
             <br />
-            <from action="" method="post" class="was-validated">
+            {{mess}}
+            {{dect}}
+            <form action="{% url 'login' %}" method="post" class="was-validated">
+              {%csrf_token%}
               <input
                 type="email"
                 class="form-control"
                 placeholder="Email Here..."
                 name="useremail"
+                value="biplab@gmail.com"
                 required
               />
               <br />
@@ -22,6 +26,7 @@
                 class="form-control"
                 placeholder="username..."
                 name="username"
+                value="biplab123"
                 required
               />
               <br />
@@ -34,7 +39,7 @@
               />
               <p class="forgotpassword">forgot password?</p>
               <button type="submit" class="btn btn-primary">Login</button>
-            </from>
+            </form>
           </div>
         </center>
         <p class="register_hyper">
