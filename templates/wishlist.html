@@ -1,0 +1,26 @@
+{%extends 'home_temp.html'%} {%block 'home_temp'%} <br /><br /><br /><br />
+<div class="container">
+  <div class="wish_title">
+    <h2 style="text-align: center">Wish List</h2>
+    <hr />
+  </div>
+  <br />
+  <table class="table table-hover">
+    <tr>
+      <td>
+        <img
+          src="/media/{{data.p_img}}"
+          style="width: 120px"
+          class="img-fluid"
+        />
+      </td>
+      <td style="font-size: 20px;padding-top: 30px;">{{data.p_name}}</td>
+      <td style="font-size: 20px;padding-top: 30px;">{{data.p_price}}</b></td>
+      <td style="font-size: 20px;padding-top: 30px;">{{data.p_category}}</td>
+      <td>
+        <button type="button" class="btn btn-outline-danger" style="margin-top: 20px;">delete</button>
+      </td>
+    </tr>
+  </table>
+</div>
+{%endblock%}

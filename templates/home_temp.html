@@ -5,7 +5,7 @@
   style="background-color: #34495e"
 >
   <div class="container-fluid">
-    <a class="navbar-brand" href="{%url 'home'%}" style="color: white"
+    <a class="navbar-brand" href="{%url 'home' user.id%}" style="color: white"
       >OnShop</a
     >
     <button
@@ -27,6 +27,8 @@
           placeholder="Search"
           aria-label="Search"
           style="width: 60vh"
+          id="myFilter"
+          onkeyup="myFunction()"
         />
       </div>
       <ul
@@ -34,9 +36,21 @@
         style="margin-left: 42vh"
       >
         <li class="nav-item">
-          <button type="button" class="btn btn-outline-primary">
-            WishList <span class="badge bg-secondary">4</span>
-          </button>
+          <form method="post" action="{%url 'wishlist' user.id%}">
+            {%csrf_token%}
+            <button type="submit" class="btn btn-outline-primary">
+              WishList
+              <input
+                readonly
+                class="bg-secondary"
+                name="wishlist_val"
+                value="{{wish}}"
+                style="width: 22px; height: 22px; text-align: center;
+                border:none;color: white;
+                border-radius: 4px;"
+              />
+            </button>
+          </form>
         </li>
         <li class="nav-item">
           <button type="button" class="btn btn-outline-success">
@@ -44,7 +58,11 @@
           </button>
         </li>
         <li class="nav-item">
-          <a type="button" class="btn btn-outline-info" href="{%url 'profile' user.id %}">
+          <a
+            type="button"
+            class="btn btn-outline-info"
+            href="{%url 'profile' user.id %}"
+          >
             {{user.first_name}}
           </a>
         </li>

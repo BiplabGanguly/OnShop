@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from users.models import Profile, State
+from products.models import Product,Wishlist
 
 title = {}
 
@@ -43,8 +44,6 @@ def user_sign_up_post(req):
 
 
 dect = {}
-
-
 def login_user_post(req):
     if req.method == "POST":
         username = req.POST['username']
@@ -55,7 +54,7 @@ def login_user_post(req):
 
         if user is not None:
             login(req, user)
-            return render(req, "home.html")
+            return redirect("home",user.id)
         else:
             dect['message'] = "Invalid"
             return render(req, "userlogin.html", dect)
@@ -66,17 +65,24 @@ def log_out(req):
     return redirect("userlogin")
 
 
+
 @login_required(login_url='')
-def home_index(req):
+def home_index(req,id):
+    wishes = Wishlist.objects.filter(user_id_id = id).count()
+    pros = Product.objects.all()
+    product={'products': pros,'wish':wishes}
     title['header'] = "OnShop"
-    return render(req, "home.html")
+    req.session['wishdatas'] = wishes
+    return render(req, "home.html",product)
 
 
+data = {}
 @login_required(login_url='')
 def user_profile(req, id):
     user_profile = Profile.objects.filter(user_id=id)
     state = State.objects.all()
-    profile = {'userprofile': user_profile, 'state': state}
+    wishes = Wishlist.objects.filter(user_id_id = id).count()
+    profile = {'userprofile': user_profile, 'state': state,'wish':wishes}
     title['header'] = "Profile"
     return render(req, "user_profile.html", profile)
 
@@ -106,6 +112,7 @@ def useraddrss(req, id):
         #     return redirect("profile",id)
 
 
+
 @login_required(login_url='')
 def edituseraddrss(req, id):
     p = Profile.objects.get(user_id = id)
@@ -118,3 +125,39 @@ def edituseraddrss(req, id):
                        user_pin=userpin, user_dist=userdist, user_state=userstate)
             prof.save()
             return redirect("profile",id)
+               
+
+# admin panel
+
+def admin_panel(req):
+    return render(req,"app_admin.html")
+
+
+
+# products
+
+@login_required(login_url='')
+def product_details(req,id):
+    data = req.session['wishdatas']
+    print(data)
+    prod = Product.objects.get(id = id)
+    details = {'product':prod,'wish':data}
+    return render(req,"product_details.html",details)
+
+
+@login_required(login_url='')
+def wishlist(req,id):
+    allpro = {}
+    if req.method == "POST":
+        wishlist_val = req.POST['wishlist_val']
+        if wishlist_val == '0':
+            return redirect('home',id)
+        else:
+            wishes = Wishlist.objects.filter(user_id_id = id).count()
+            wish = Wishlist.objects.select_related().get(user_id_id = id)
+            prolist = Product.objects.get(id = wish.product_id_id)
+            allpro['data'] = prolist
+            allpro['wish']= wishes
+            return render(req,"wishlist.html",allpro)
+    
+

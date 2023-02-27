@@ -1,5 +1,29 @@
 {%extends 'home_temp.html'%} {%block 'home_temp'%}
 <br />
 <br />
-<h2>index</h2>
+<br />
+<div class="container">
+  <div class="row" id="myItems">
+    {%for p in products%}
+    <div
+      class="card"
+      style="width: 18rem; box-shadow: 0px 8px 5px #34495e; margin-right: 40px"
+    >
+      <img
+        src="/media/{{p.p_img}}"
+        class="card-img-top"
+        alt="..."
+        style="margin-top: 5px"
+      />
+      <div class="card-body" style="text-align: center">
+        <a href="{%url 'product' p.id %}" style="color:#283747;text-decoration: none;">
+          <h5 class="card-title">{{p.p_name}}</h5>
+        </a>
+        only at rupees
+        <span style="font-size: 20px; font-style: italic">{{p.p_price}}</span>
+      </div>
+    </div>
+    {%endfor%}
+  </div>
+</div>
 {%endblock%}

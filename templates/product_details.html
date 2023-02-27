@@ -1,0 +1,44 @@
+{%extends 'home_temp.html'%} {%block 'home_temp'%} <br /><br /><br /><br />
+<div class="container">
+  <div class="row">
+    <div class="col-md-6" style="padding-top: 30px">
+      <img
+        src="/media/{{product.p_img}}"
+        class="img-fluid"
+        style="border-radius: 20px"
+      />
+    </div>
+    <div class="col-md-6" style="text-align: justify">
+      <div class="detail_body" style="padding-top: 30px">
+        <h3>{{product.p_name}}</h3>
+        <button type="button" class="btn btn-outline-info">
+          Add to WishList
+        </button>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, neque
+          veniam sapiente suscipit incidunt qui iste laudantium delectus dicta
+          accusantium iusto? Quaerat nisi voluptatum alias fugiat ea quo dicta
+          vero!
+        </p>
+      </div>
+      only at rupees <span>{{product.p_price}}</span><br />
+      Buy now! only <span>{{product.p_quantity}}</span> are left!! <br /><br />
+      <div class="des">{{product.p_desc}}</div>
+      <br /><br />
+      <div class="d-grid gap-2 d-md-flex justify-content-md">
+        <button class="btn btn-outline-success me-md-2" type="button">
+          Buy Now
+        </button>
+        <button class="btn btn-outline-primary" type="button">
+          Add To Cart
+        </button>
+      </div>
+    </div>
+  </div>
+  <p style="text-align: center">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae mollitia
+    ipsum sint numquam at odio impedit quis alias voluptatibus non. Odit unde at
+    in quia iste magni earum debitis culpa.
+  </p>
+</div>
+{%endblock%}
