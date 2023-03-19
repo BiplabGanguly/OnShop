@@ -11,9 +11,12 @@
     <div class="col-md-6" style="text-align: justify">
       <div class="detail_body" style="padding-top: 30px">
         <h3>{{product.p_name}}</h3>
-        <button type="button" class="btn btn-outline-info">
-          Add to WishList
-        </button>
+        <form action="{% url 'addwish' product.id %}" method="post">
+          {%csrf_token%}
+          <button type="submit" class="btn btn-outline-info">
+            Add to WishList
+          </button>
+        </form>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, neque
           veniam sapiente suscipit incidunt qui iste laudantium delectus dicta

@@ -143,7 +143,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <form action="{%url 'edituseraddress' user.id%}" method="post">
+      <form action="{%url 'edituser' user.id%}" method="post">
         {%csrf_token%}
       <div class="modal-body">
         <div class="row">
@@ -152,17 +152,17 @@
             <input type="text" class="form-control" name="fname" value="{{user.first_name}}" />
           </div>
           <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="pin code" name="userpin"   value="{{user.last_name}}" />
+            <input type="text" class="form-control" name="lname"   value="{{user.last_name}}" />
           </div>
         </div>
         <br />
         <div class="row">
           <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="district" name="userdist" value="{{user.email}}"/>
+            <input type="text" class="form-control" name="uemail" value="{{user.email}}"/>
           </div>
       
           <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="district" name="userdist" value="{{user.username}}"/>
+            <input type="text" class="form-control" name="username" value="{{user.username}}"/>
           </div>
           {%endfor%}
         </div>

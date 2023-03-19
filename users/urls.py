@@ -13,10 +13,12 @@ urlpatterns = [
     path('profile/<id>',views.user_profile,name="profile"),
     path('address/<id>',views.useraddrss,name="useraddress"),
     path('editaddress/<id>',views.edituseraddrss,name="edituseraddress"),
-    path('onshop/admin/',views.admin_panel,name="admin"),
     path('product/<id>',views.product_details,name="product"),
     path('wishlist/<id>',views.wishlist,name="wishlist"),
+    path('addwish/<pid>',views.add_wishlist,name="addwish"),
+    path('editprofile/<uid>',views.editUserProfile,name="edituser"),
 ]
+
 
 if settings.DEBUG:
     urlpatterns+=static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
