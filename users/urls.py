@@ -17,6 +17,7 @@ urlpatterns = [
     path('wishlist/<id>',views.wishlist,name="wishlist"),
     path('addwish/<pid>',views.add_wishlist,name="addwish"),
     path('editprofile/<uid>',views.editUserProfile,name="edituser"),
+    path('deletewish/<wid>',views.delete_wish,name="deletewish"),
 ]
 
 

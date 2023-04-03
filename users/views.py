@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from users.models import Profile, State
-from products.models import Product
+from products.models import Product,Wishlist
 
 title = {}
 
@@ -68,9 +68,9 @@ def log_out(req):
 
 @login_required(login_url='')
 def home_index(req,id):
-    # wishes = Wishlist.objects.filter(user_id_id = id).count()
+    wishes = Wishlist.objects.filter(user_id_id = id).count()
     pros = Product.objects.all()
-    product={'products': pros}
+    product={'products': pros,'wish':wishes}
     title['header'] = "OnShop"
     # req.session['wishdatas'] = wishes
     req.session['uid'] = id
@@ -82,8 +82,8 @@ data = {}
 def user_profile(req, id):
     user_profile = Profile.objects.filter(user_id=id)
     state = State.objects.all()
-    # wishes = Wishlist.objects.filter(user_id_id = id).count()
-    profile = {'userprofile': user_profile, 'state': state}
+    wishes = Wishlist.objects.filter(user_id_id = id).count()
+    profile = {'userprofile': user_profile, 'state': state,'wish':wishes}
     title['header'] = "Profile"
     return render(req, "user_profile.html", profile)
 
@@ -134,9 +134,10 @@ def editUserProfile(req,uid):
 
 @login_required(login_url='')
 def product_details(req,id):
-    # data = req.session['wishdatas']
+    data = req.session['uid']
+    wishes = Wishlist.objects.filter(user_id_id = data).count()
     prod = Product.objects.get(id = id)
-    details = {'product':prod}
+    details = {'product':prod,'wish':wishes}
     return render(req,"product_details.html",details)
 
 
@@ -148,23 +149,38 @@ def wishlist(req,id):
         if wishlist_val == '0':
             return redirect('home',id)
         else:
-            # wishes = Wishlist.objects.filter(user_id_id = id).count()
-            # following = (u.following for u in Profile.objects.filter(user=request.user))
-            # # posts = Post.objects.filter(user__in=following)
-            # wish = Wishlist.objects.filter(user_id_id = id)
-            prolist = Product.objects.select_related('wishlist')
-            # allpro['uid'] = wish
-            allpro['data'] = prolist
-            # allpro['wish']= wishes
+            wishes = Wishlist.objects.filter(user_id_id = id).count()
+            wish = Wishlist.objects.filter(user_id_id = id)
+            allpro['data'] = wish
+            allpro['wish']= wishes
             return render(req,"wishlist.html",allpro)
     
 
 @login_required(login_url='')
 def add_wishlist(req,pid):
+    k = req.session['uid']
+    getpro = Product.objects.get(id= pid)
+    count = 1
+    try:
+        wish = Wishlist.objects.filter(product_id_id = pid).get(user_id_id = k)
+    except:
+        count = 0
     if req.method == "POST":
-        k = req.session['uid']
-        # wish = Wishlist(user_id_id = k,product_id_id = pid)
-        # wish.save()
-        # return redirect('home',k)
+        if count == 1:
+            return redirect('home',k)
+        else:
+            wish = Wishlist(user_id_id = k,product_id_id = pid,p_img = getpro.p_img,product_category= getpro.p_category,product_name= getpro.p_name,product_price=getpro.p_price)
+            wish.save()
+            return redirect('home',k)
 
-
+@login_required(login_url='')
+def delete_wish(req,wid):
+    allpro ={}
+    k = req.session['uid']
+    if req.method == "POST":
+        Wishlist.objects.filter(id = wid).delete()
+    wishes = Wishlist.objects.filter(user_id_id = k).count()
+    wish = Wishlist.objects.filter(user_id_id = k)
+    allpro['data'] = wish
+    allpro['wish']= wishes
+    return render(req,"wishlist.html",allpro)

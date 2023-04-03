@@ -2,12 +2,13 @@
 <div class="container">
   <div class="wish_title">
     <h2 style="text-align: center">Wish List</h2>
+    <!-- <p>Total - <input  readonly class="form-control" style="width: 200px;" id="text" value="00"></p> -->
     <hr />
   </div>
   <br />
 
-  <table class="table table-hover">
-    {%for d in data %)
+  <table class="table table-hover" id="table1">
+    {%for d in data %}
     <tr>
       <td>
         <img
@@ -16,15 +17,31 @@
           class="img-fluid"
         />
       </td>
-      <td style="font-size: 20px;padding-top: 30px;">{{d.p_name}}</td>
-      <td style="font-size: 20px;padding-top: 30px;">{{d.p_price}}</b></td>
-      <td style="font-size: 20px;padding-top: 30px;">{{d.p_category}}</td>
+      <td style="font-size: 20px;padding-top: 30px;">{{d.product_name}}</td>
+      <td style="font-size: 20px;padding-top: 30px;" id= "price">{{d.product_price}}</b></td>
+      <td style="font-size: 20px;padding-top: 30px;">{{d.category}}</td>
       <td>
-        <button type="button" class="btn btn-outline-danger" style="margin-top: 20px;">delete</button>
+        <form action="{% url 'deletewish' d.id %}" method="post">
+          {%csrf_token%}
+          <button type="submit" class="btn btn-outline-danger" style="margin-top: 20px;">delete</button>
+        </form>
       </td>
     </tr>
     {%endfor%}
   </table>
-
 </div>
+
+<!-- <script>
+   window.onload = function() {
+
+let rows = document.getElementById("table1").children[0].rows;
+var price = 0;
+
+for (let i = 0; i < rows.length; i++) {
+  price += parseInt(rows[i].cells[2].firstChild.data);
+  }
+
+  document.getElementById("text").value = price;
+}
+</script> -->
 {%endblock%}
