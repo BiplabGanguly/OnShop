@@ -18,6 +18,9 @@ urlpatterns = [
     path('addwish/<pid>',views.add_wishlist,name="addwish"),
     path('editprofile/<uid>',views.editUserProfile,name="edituser"),
     path('deletewish/<wid>',views.delete_wish,name="deletewish"),
+    path('cart/<uid>',views.add_to_cart,name="cart"),
+    path('addcart/<pid>',views.add_cart_data,name="cartdata"),
+    path('deletecart/<cid>',views.delete_cart,name="deletecart"),
 ]
 
 

@@ -32,9 +32,12 @@
         <button class="btn btn-outline-success me-md-2" type="button">
           Buy Now
         </button>
-        <button class="btn btn-outline-primary" type="button">
-          Add To Cart
-        </button>
+        <form action="{% url 'cartdata' product.id %}" method="post">
+          {%csrf_token%}
+          <button class="btn btn-outline-primary" type="submit">
+            Add To Cart
+          </button>
+        </form>
       </div>
     </div>
   </div>

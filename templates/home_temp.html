@@ -45,17 +45,48 @@
                 class="bg-secondary"
                 name="wishlist_val"
                 value="{{wish}}"
-                style="width: 22px; height: 22px; text-align: center;
-                border:none;color: white;
-                border-radius: 4px;"
+                style="
+                  width: 22px;
+                  height: 22px;
+                  text-align: center;
+                  border: none;
+                  color: white;
+                  border-radius: 4px;
+                "
               />
             </button>
           </form>
         </li>
         <li class="nav-item">
-          <button type="button" class="btn btn-outline-success">
-            Cart <span class="badge bg-secondary">4</span>
-          </button>
+          <a
+            type="button"
+            class="btn btn-outline-success"
+            href="{%url 'cart' user.id%}"
+          >
+            Cart
+            <input
+              readonly
+              class="bg-secondary"
+              name="wishlist_val"
+              value="{{cart}}"
+              style="
+                width: 22px;
+                height: 22px;
+                text-align: center;
+                border: none;
+                color: white;
+                border-radius: 4px;
+              "
+            />
+          </a>
+        </li>
+        <li>
+          <a
+            type="button"
+            class="btn btn-outline-warning"
+          >
+            Ord.
+          </a>
         </li>
         <li class="nav-item">
           <a
