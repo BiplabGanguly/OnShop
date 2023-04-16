@@ -29,9 +29,13 @@
       <div class="des">{{product.p_desc}}</div>
       <br /><br />
       <div class="d-grid gap-2 d-md-flex justify-content-md">
-        <button class="btn btn-outline-success me-md-2" type="button">
-          Buy Now
-        </button>
+        <a href="{% url 'orderpro' product.id %}">
+          <button class="btn btn-outline-success me-md-2" type="button">
+            Buy Now
+          </button>
+
+        </a>
+     
         <form action="{% url 'cartdata' product.id %}" method="post">
           {%csrf_token%}
           <button class="btn btn-outline-primary" type="submit">

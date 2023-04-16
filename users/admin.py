@@ -1,5 +1,5 @@
 from django.contrib import admin
-from users.models import Profile,State
+from users.models import Profile,State,Order
 from products.models import Product,Wishlist,AddToCart
 # Register your models here.
 admin.site.register(Profile)
@@ -7,3 +7,4 @@ admin.site.register(State)
 admin.site.register(Product)
 admin.site.register(Wishlist)
 admin.site.register(AddToCart)
+admin.site.register(Order)

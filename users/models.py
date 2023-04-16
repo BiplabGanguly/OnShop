@@ -18,3 +18,20 @@ class State(models.Model):
     
     def __str__(self) -> str:
         return self.state_name
+
+
+class Order(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_fisrt_name = models.CharField(max_length=255)
+    user_last_name = models.CharField(max_length=255)
+    user_email  = models.CharField(max_length=255)
+    user_address = models.TextField()
+    user_pin = models.CharField(max_length=255)
+    user_dist = models.CharField(max_length=255)
+    user_state = models.CharField(max_length=255)
+    pro_name = models.CharField(max_length=255)
+    pro_price = models.CharField(max_length=255)
+    status = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.user_id.first_name

@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from users.models import Profile, State
+from users.models import Profile, State, Order
 from products.models import Product, Wishlist, AddToCart
+import stripe
+from django.conf import settings
 
 title = {}
-
+stripe.api_key = settings.SECRET_KEY
 
 def userlogin(req):
     title['header'] = "log-in"
@@ -243,3 +245,70 @@ def delete_cart(req, cid):
     alldata['data'] = cart2
     alldata['cart'] = cart
     return render(req, "add_to_cart.html", alldata)
+
+
+@login_required(login_url='/')
+def order_product(req,pid):
+    def get_data(self, **argu):
+        context = get_data(**argu)
+        context['key'] = settings.PUBLISHABLE_KEY
+        return context
+    userpro = {}
+    k = req.session['uid']
+    user_profile = Profile.objects.get(user_id=k)
+    order_product = Product.objects.filter(id = pid)
+    wishes = Wishlist.objects.filter(user_id_id=k).count()
+    cart = AddToCart.objects.filter(user_id_id=k).count()
+    userpro['users'] = user_profile
+    userpro['pro'] = order_product
+    userpro['cart'] = cart
+    userpro['wish'] = wishes
+    return render(req,"order_product.html",userpro)
+
+
+@login_required(login_url='/')
+def payment(req,pid):
+    if req.method == "POST":
+        k = req.session['uid']
+        f_name = req.POST['f_name']
+        l_name = req.POST['l_name']
+        email= req.POST['email']
+        address = req.POST['address']
+        pin = req.POST['pin']
+        dist = req.POST['dist']
+        state =req.POST['state']
+        pro_name = req.POST['pro_name']
+        price = req.POST['price']
+        order = Order(user_address = address, user_pin = pin,user_state = state,user_dist = dist,pro_name = pro_name,pro_price = price, user_id_id = k, status = "pending",user_email = email,user_fisrt_name = f_name,user_last_name = l_name)
+        order.save()
+        print(f_name, l_name,price,k)
+        stripe.PaymentIntent.create(
+            description="Shopping",
+            shipping={
+                "name": "Goutam Mahanti",
+                "address": {
+                    "line1": "510 Townsend St",
+                    "postal_code": "723132",
+                    "city": "Durgapur",
+                    "state": "West Bengal",
+                    "country": "INDIA",
+                },
+            },
+            amount=500,
+            currency="usd",
+            payment_method_types=["card"],
+        )
+        pro = Product.objects.get(id = pid)
+        data = int(pro.p_quantity) -1
+        check = Product(p_quantity = str(data),id= pid,p_name = pro.p_name,p_category = pro.p_category,p_img = pro.p_img,p_desc = pro.p_desc,p_price = pro.p_price)
+        check.save()
+        userpro ={}
+        wishes = Wishlist.objects.filter(user_id_id=k).count()
+        cart = AddToCart.objects.filter(user_id_id=k).count()
+        userpro['cart'] = cart
+        userpro['wish'] = wishes
+        return render(req,"paymentsuccess.html",userpro)
+    
+
+
+

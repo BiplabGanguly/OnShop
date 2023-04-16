@@ -1,0 +1,69 @@
+{%extends 'home_temp.html'%} {%block 'home_temp'%} <br /><br /><br /><br />
+<h2 style="text-align: center">Details</h2>
+<hr />
+<div class="container">
+  {% for i in pro%}
+  <form action="{% url 'payment' i.id %}" method="post">
+  {%endfor%}
+    {%csrf_token%}
+  <div class="row">
+    <div class="col-md-6">
+      <input readonly value="{{user.first_name}}" class="form-control" name="f_name" />
+    </div>
+    <div class="col-md-6">
+      <input readonly value="{{user.last_name}}" class="form-control" name="l_name" />
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-6">
+      <input readonly value="{{user.email}}" class="form-control" name="email"/>
+    </div>
+    <div class="col-md-6">
+      <input readonly value="{{user.username}}" class="form-control" />
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-6">
+      <input readonly value="{{users.address}}" class="form-control" name="address" />
+    </div>
+    <div class="col-md-6">
+      <input readonly value="{{users.user_pin}}" class="form-control" name="pin" />
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-6">
+      <input readonly value="{{users.user_dist}}" class="form-control" name="dist" />
+    </div>
+    <div class="col-md-6">
+      <input readonly value="{{users.user_state}}" class="form-control"  name="state"/>
+    </div>
+  </div>
+  <br />
+
+  {%for i in pro%}
+  <div class="row">
+    <div class="col-md-6">
+      <input readonly value="{{i.p_name}}" class="form-control" name="pro_name" />
+    </div>
+    <div class="col-md-6">
+      <input readonly value="{{i.p_price}}" class="form-control" name="price" />
+    </div>
+  </div>
+  <br />
+  <br />
+ 
+    <script
+      src="https://checkout.stripe.com/checkout.js"
+      class="stripe-button"
+      data-key="pk_test_51MdyTLSHgWa9JzRT2RJ56pyAl28goKY3aVzFQCUSlr91bjZob8LKYhWdUUcAJHB8OFAwRzxEhmbMl9NSfGLKv7xx00136X0LQ4"
+      data-description="payment gateway"
+      data-amount="{{i.p_price}}"
+      data-locale="auto"
+    ></script>
+  </form>
+  {%endfor%}
+</div>
+{%endblock%}
