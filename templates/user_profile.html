@@ -197,6 +197,7 @@ edit profile
     class="btn btn-primary"
     data-bs-toggle="modal"
     data-bs-target="#exampleModal"
+    id="addbtn"
   >
     Add address
   </button>
@@ -205,6 +206,9 @@ edit profile
   class="btn btn-primary"
   data-bs-toggle="modal"
   data-bs-target="#exampleModaledit"
+  id="editbtn"
+  style="position: absolute;
+  right: 100px;"
 >
   Edit address
 </button>
@@ -293,6 +297,7 @@ edit profile
           type="text"
           value="{{i.user_pin}}"
           aria-label="Disabled input example"
+          id="upin"
           disabled
           readonly
         />
@@ -325,7 +330,19 @@ edit profile
       </div>
     </div>
   </div>
+
+
+  <script>
+  var addr = document.getElementById("uadd").value;
+  if (addr != "" && upin != ""){
+    document.getElementById("addbtn").style.visibility = 'hidden';
+  }
+  else{
+    document.getElementById("editbtn").style.visibility = 'hidden';
+  }
+  </script>
   {%endblock%}
 
  
-</div>
+
+

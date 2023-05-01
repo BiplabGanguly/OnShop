@@ -1,0 +1,21 @@
+{%extends 'home_temp.html'%} {%block 'home_temp'%} <br /><br /><br /><br >
+<div class="container">
+    <form action="{% url 'delete_history' %}" method="post">
+        {%csrf_token%}
+        <button type="submit" class="btn btn-outline-danger">Clear History</button>
+    </form>
+<center>
+    <h2>Order History</h2>
+</center>
+<hr>
+    <table class="table table-hover">
+        {% for data in order_data %}
+        <tr>
+            <td><b>{{data.pro_name}}</b></td>
+            <td><b><i>{{data.pro_price}}</i></b></td>
+            <td><b>{{data.status}}</b></td>
+        </tr>
+        {%endfor%}
+    </table>
+</div>
+{%endblock%}

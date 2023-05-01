@@ -23,6 +23,10 @@ urlpatterns = [
     path('deletecart/<cid>',views.delete_cart,name="deletecart"),
     path('order_product/<pid>',views.order_product,name="orderpro"),
     path('order_process/<pid>',views.payment,name="payment"),
+    path('order_list/<uid>',views.check_order_list,name="order_list"),
+    path('order_receive/<oid>',views.order_receive,name="receive"),
+    path('order_history',views.order_history,name="order_hist"),
+    path('delete/history',views.delete_history,name="delete_history"),
 ]
 
 

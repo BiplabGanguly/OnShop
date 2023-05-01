@@ -25,9 +25,16 @@
         </p>
       </div>
       only at rupees <span>{{product.p_price}}</span><br />
+      
+      {% if product.p_quantity == '0' %}
+      <span>Unavailable</span>
+      {%else%}
       Buy now! only <span>{{product.p_quantity}}</span> are left!! <br /><br />
+      {%endif%}
       <div class="des">{{product.p_desc}}</div>
       <br /><br />
+      {% if product.p_quantity == '0' %}
+      {%else%}
       <div class="d-grid gap-2 d-md-flex justify-content-md">
         <a href="{% url 'orderpro' product.id %}">
           <button class="btn btn-outline-success me-md-2" type="button">
@@ -43,6 +50,7 @@
           </button>
         </form>
       </div>
+      {%endif%}
     </div>
   </div>
   <p style="text-align: center">
