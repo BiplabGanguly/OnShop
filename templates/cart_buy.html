@@ -16,16 +16,22 @@
 </style>
 <div class="container">
   <div class="wish_title">
-    <h2 style="text-align: center">Cart</h2>
     <br>
+    <form action="{% url 'cart_buy' %}" method="post">
+      {%csrf_token%}
     <div class="row">
       <div class="col-md-6">
         <p>Total - <input  readonly class="form-control" style="width: 200px;" id="text" value="00"></p>
       </div>
       <div class="col-md-6" style="padding-left: 500px; padding-top: 20px;">
-        <a href="{% url 'cart_buy' %}">
-          <button type="submit" class="btn btn-outline-success">Buy Now</button>
-        </a>
+        <script
+        src="https://checkout.stripe.com/checkout.js"
+        class="stripe-button"
+        data-key="pk_test_51MdyTLSHgWa9JzRT2RJ56pyAl28goKY3aVzFQCUSlr91bjZob8LKYhWdUUcAJHB8OFAwRzxEhmbMl9NSfGLKv7xx00136X0LQ4"
+        data-description="payment gateway"
+        data-amount="{{i.p_price}}"
+        data-locale="auto"
+      ></script>
       </div>
     </div>
     <hr />
@@ -45,12 +51,7 @@
       <td style="font-size: 20px;padding-top: 30px;" name="p_name">{{d.product_name}}</td>
       <td style="font-size: 20px;padding-top: 30px;" id= "price"  name="price">{{d.product_price}}</b></td>
       <td style="font-size: 20px;padding-top: 30px;" name="cate">{{d.category}}</td>
-      <td>
-        <form action="{% url 'deletecart' d.id %}" method="post">
-          {%csrf_token%}
-          <button type="submit" class="btn btn-outline-danger" style="margin-top: 20px;">delete</button>
-        </form>
-      </td>
+      <td style="font-size: 20px;padding-top: 30px;" id = "total">{{d.total}}</td>
     </tr>
     {%endfor%}
   </table>
@@ -63,7 +64,7 @@ let rows = document.getElementById("table1").children[0].rows;
 var price = 0;
 
 for (let i = 0; i < rows.length; i++) {
-  price += parseInt(rows[i].cells[2].firstChild.data);
+  price = price + parseInt(rows[i].cells[4].firstChild.data) *  parseInt(rows[i].cells[2].firstChild.data);
   }
 
   document.getElementById("text").value = price;

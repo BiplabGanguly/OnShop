@@ -27,6 +27,7 @@ urlpatterns = [
     path('order_receive/<oid>',views.order_receive,name="receive"),
     path('order_history',views.order_history,name="order_hist"),
     path('delete/history',views.delete_history,name="delete_history"),
+    path('cart_buy',views.cart_buy,name="cart_buy"),
 ]
 
 

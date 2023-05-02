@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from users.models import Profile, State, Order
 from products.models import Product, Wishlist, AddToCart
+from django.db.models import Count
 import stripe
 from django.conf import settings
 
@@ -346,3 +347,18 @@ def delete_history(req):
     if req.method == "POST":
         Order.objects.filter(user_id_id = k).filter(status = "received").delete()
         return redirect('order_hist')
+
+
+# cart buy .....................................................
+@login_required(login_url='/')
+def cart_buy(req):
+    k = req.session['uid']
+    data = AddToCart.objects.all().filter(user_id_id = k).values('product_id_id','p_img','product_name','product_price','product_category').annotate(total=Count('id'))
+    wishes = Wishlist.objects.filter(user_id_id=k).count()
+    cart = AddToCart.objects.filter(user_id_id=k).count()
+    alldata = {
+        'data' : data
+    }
+    alldata['cart'] = cart
+    alldata['wish'] = wishes
+    return render(req,"cart_buy.html",alldata)
