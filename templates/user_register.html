@@ -1,11 +1,18 @@
 {%extends 'template.html'%} {%block content%}
-<div class="container register_con">
+<div class="container register_con" style="margin-top: 10vh; height: 60vh">
   <div class="row">
     <div class="offset-md-3 col-md-6 register">
-      <div class="register_panel">
+      <div
+        class="register_panel"
+        style="background-color: #34495e; height: 80vh; border-radius: 5%"
+      >
         <center>
-          <div class="registerform">
-            <span class="form-label fromlabelregister">Sign Up</span>
+          <div class="registerform" style="padding-top: 1vh; width: 80vh">
+            <span
+              class="form-label fromlabelregister"
+              style="color: white; font-size: 5vh"
+              >Sign Up</span
+            >
             <hr class="hr" />
             <br />
             {{mess}}
@@ -14,7 +21,7 @@
               method="POST"
               class="was-validated"
             >
-            {%csrf_token%}
+              {%csrf_token%}
               <input
                 type="text"
                 class="form-control"
@@ -63,8 +70,8 @@
                 required
               />
               <br />
-              <input type="submit" class="btn btn-success" value="Signup">          
-          </form>
+              <input type="submit" class="btn btn-success" value="Signup" />
+            </form>
           </div>
         </center>
         <a href="{% url 'userlogin'%}" class="login_link"> go to login </a>

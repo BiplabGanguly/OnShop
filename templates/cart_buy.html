@@ -17,19 +17,17 @@
 <div class="container">
   <div class="wish_title">
     <br>
-    <form action="{% url 'cart_buy' %}" method="post">
-      {%csrf_token%}
     <div class="row">
-      <div class="col-md-6">
-        <p>Total - <input  readonly class="form-control" style="width: 200px;" id="text" value="00"></p>
-      </div>
-      <div class="col-md-6" style="padding-left: 500px; padding-top: 20px;">
+      <form action="{% url 'cart_pay' %}" method="post">
+        {%csrf_token%}
+      <div class="col-md-6" style="padding-top: 20px;">
         <script
+        id="payment"
         src="https://checkout.stripe.com/checkout.js"
         class="stripe-button"
         data-key="pk_test_51MdyTLSHgWa9JzRT2RJ56pyAl28goKY3aVzFQCUSlr91bjZob8LKYhWdUUcAJHB8OFAwRzxEhmbMl9NSfGLKv7xx00136X0LQ4"
         data-description="payment gateway"
-        data-amount="{{i.p_price}}"
+        data-amount=""
         data-locale="auto"
       ></script>
       </div>
@@ -48,28 +46,23 @@
           class="img-fluid"
         />
       </td>
-      <td style="font-size: 20px;padding-top: 30px;" name="p_name">{{d.product_name}}</td>
-      <td style="font-size: 20px;padding-top: 30px;" id= "price"  name="price">{{d.product_price}}</b></td>
-      <td style="font-size: 20px;padding-top: 30px;" name="cate">{{d.category}}</td>
-      <td style="font-size: 20px;padding-top: 30px;" id = "total">{{d.total}}</td>
+      <td>
+        <input hidden name="pid_{{ forloop.counter }}" value = "{{d.product_id_id}}"/>
+      </td>
+      <td>
+        <input readonly class="form-control" name="pname_{{ forloop.counter }}"value="{{d.product_name}}"/>
+        </td>
+        <td>
+        <input readonly class="form-control" name="price_{{ forloop.counter }}" value="{{d.product_price}}"/>
+        </td>
+        <td>
+        <input readonly class="form-control" name="total_{{ forloop.counter }}" value="{{d.total}}"/>
+        </td>
     </tr>
     {%endfor%}
   </table>
+</form>
 </div>
 
-<script>
-   window.onload = function() {
-
-let rows = document.getElementById("table1").children[0].rows;
-var price = 0;
-
-for (let i = 0; i < rows.length; i++) {
-  price = price + parseInt(rows[i].cells[4].firstChild.data) *  parseInt(rows[i].cells[2].firstChild.data);
-  }
-
-  document.getElementById("text").value = price;
-}
-
-</script>
 
 {%endblock%}

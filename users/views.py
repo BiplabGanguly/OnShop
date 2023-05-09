@@ -208,6 +208,7 @@ def add_to_cart(req, uid):
     alldata['wish'] = wishes
     alldata['cart'] = cart
     return render(req, "add_to_cart.html", alldata)
+    
 
 
 @login_required(login_url='/')
@@ -273,7 +274,7 @@ def payment(req,pid):
         if address is not None:
             order = Order(user_address = address, user_pin = pin,user_state = state,user_dist = dist,pro_name = pro_name,pro_price = price, user_id_id = k, status = "pending",user_email = email,user_fisrt_name = f_name,user_last_name = l_name)
             order.save()
-            print(f_name, l_name,price,k)
+            # print(f_name, l_name,price,k)
             stripe.PaymentIntent.create(
                 description="Shopping",
                 shipping={
@@ -362,3 +363,55 @@ def cart_buy(req):
     alldata['cart'] = cart
     alldata['wish'] = wishes
     return render(req,"cart_buy.html",alldata)
+
+
+
+@login_required(login_url='/')
+def cart_payment(req):
+    temp=0
+    k = req.session['uid']
+    if req.method == "POST":
+        for i in range(1, len(req.POST)):
+            pid = req.POST.get(f'pid_{i}')
+            tl = req.POST.get(f'total_{i}')
+            if(pid is not None and tl is not None):
+                checkdata = Product.objects.get(id = pid)
+                user = User.objects.get(id= k)
+                pro = Profile.objects.get(user_id = k)
+                qunt = checkdata.p_quantity
+                # print(int(tl))
+                # print(int(qunt))
+                if int(tl) <= int(qunt): 
+                     stripe.PaymentIntent.create(
+                    description="Shopping",
+                    shipping={
+                        "name": "Goutam Mahanti",
+                        "address": {
+                        "line1": "510 Townsend St",
+                        "postal_code": "723132",
+                        "city": "Durgapur",
+                        "state": "West Bengal",
+                        "country": "INDIA",
+                        },
+                    },
+                        amount=500,
+                        currency="usd",
+                        payment_method_types=["card"],
+                    )
+                data = int(qunt) - int(tl)
+                order = Order(user_address = pro.address, user_pin = pro.user_pin,user_state = pro.user_state,user_dist = pro.user_dist,pro_name = checkdata.p_name,pro_price = checkdata.p_price, user_id_id = k, status = "pending",user_email = user.email,user_fisrt_name = user.first_name,user_last_name = user.last_name)
+                order.save()
+                check = Product(p_quantity = str(data),id= pid,p_name = checkdata.p_name,p_category = checkdata.p_category,p_img = checkdata.p_img,p_desc = checkdata.p_desc,p_price = checkdata.p_price)
+                check.save()
+                AddToCart.objects.all().delete()
+                userpro ={}
+                wishes = Wishlist.objects.filter(user_id_id=k).count()
+                cart = AddToCart.objects.filter(user_id_id=k).count()
+                userpro['cart'] = cart
+                userpro['wish'] = wishes
+                temp=1
+        if temp == 1:
+            return render(req,"paymentsuccess.html",userpro)
+        else:
+            return redirect('cart_buy')
+            

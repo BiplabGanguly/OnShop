@@ -1,16 +1,26 @@
 {%extends 'template.html'%} {%block content%}
-<div class="container login-container">
+<div class="container login-container" style="margin-top: 20vh; height: 60vh">
   <div class="row">
     <div class="offset-md-3 col-md-6 login">
-      <div class="login-panel">
+      <div
+        class="login-panel"
+        style="background-color: #34495e; height: 60vh; border-radius: 10%"
+      >
         <center>
-          <div class="loginform">
-            <span class="form-label fromlabel">Log In</span>
-            <hr class="hr" />
+          <div class="loginform" style="padding-top: 1vh; width: 70vh">
+            <span
+              class="form-label fromlabel"
+              style="color: white; font-size: 5vh"
+              >Log In</span
+            >
+            <hr class="hr" style="color: white" />
             <br />
-            {{mess}}
-            {{dect}}
-            <form action="{% url 'login' %}" method="post" class="was-validated">
+            {{mess}} {{dect}}
+            <form
+              action="{% url 'login' %}"
+              method="post"
+              class="was-validated"
+            >
               {%csrf_token%}
               <input
                 type="email"
@@ -37,14 +47,19 @@
                 name="userpass"
                 required
               />
-              <p class="forgotpassword">forgot password?</p>
+              <br />
               <button type="submit" class="btn btn-primary">Login</button>
             </form>
           </div>
         </center>
         <p class="register_hyper">
           click Here for new
-          <a href="{%url 'register'%}" class="register_link">Register</a>
+          <a
+            href="{%url 'register'%}"
+            class="register_link"
+            style="color: white"
+            >Register</a
+          >
         </p>
       </div>
     </div>
