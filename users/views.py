@@ -6,6 +6,7 @@ from users.models import Profile, State, Order
 from products.models import Product, Wishlist, AddToCart
 from django.db.models import Count
 import stripe
+from django.contrib import messages
 from django.conf import settings
 
 title = {}
@@ -68,28 +69,34 @@ def log_out(req):
 
 @login_required(login_url='/')
 def home_index(req, id):
-    wishes = Wishlist.objects.filter(user_id_id=id).count()
-    cart = AddToCart.objects.filter(user_id_id=id).count()
-    pros = Product.objects.all()
-    product = {'products': pros, 'wish': wishes, 'cart': cart}
-    title['header'] = "OnShop"
+    try:
+        wishes = Wishlist.objects.filter(user_id_id=id).count()
+        cart = AddToCart.objects.filter(user_id_id=id).count()
+        pros = Product.objects.all()
+        product = {'products': pros, 'wish': wishes, 'cart': cart}
+        title['header'] = "OnShop"
     # req.session['wishdatas'] = wishes
-    req.session['uid'] = id
-    return render(req, "home.html", product)
+        req.session['uid'] = id
+        return render(req, "home.html", product)
+    except:
+        return render(req, 'error.html', status=404)
 
 
 data = {}
 # User Profile functions..................................
 @login_required(login_url='/')
 def user_profile(req, id):
-    user_profile = Profile.objects.filter(user_id=id)
-    state = State.objects.all()
-    wishes = Wishlist.objects.filter(user_id_id=id).count()
-    cart = AddToCart.objects.filter(user_id_id=id).count()
-    profile = {'userprofile': user_profile,
+    try:
+        user_profile = Profile.objects.filter(user_id=id)
+        state = State.objects.all()
+        wishes = Wishlist.objects.filter(user_id_id=id).count()
+        cart = AddToCart.objects.filter(user_id_id=id).count()
+        profile = {'userprofile': user_profile,
                'state': state, 'wish': wishes, 'cart': cart}
-    title['header'] = "Profile"
-    return render(req, "user_profile.html", profile)
+        title['header'] = "Profile"
+        return render(req, "user_profile.html", profile)
+    except:
+        return render(req, 'error.html', status=404)
 
 
 @login_required(login_url='/')
@@ -113,24 +120,25 @@ def edituseraddrss(req, id):
         userpin = req.POST['userpin']
         userdist = req.POST['userdist']
         userstate = req.POST['userstate']
-        prof = Profile(id=p.id, user_id=id, address=useraddrss,
+        try:
+            prof = Profile(id=p.id, user_id=id, address=useraddrss,
                        user_pin=userpin, user_dist=userdist, user_state=userstate)
-        prof.save()
-        return redirect("profile", id)
+            prof.save()
+            return redirect("profile", id)
+        except:
+            return redirect("profile", id)
 
 
 # edit profile.............................................
 @login_required(login_url='/')
 def editUserProfile(req, uid):
-    # p = User.objects.get(id = uid)
     if req.method == "POST":
         fname = req.POST['fname']
         lname = req.POST['lname']
         email = req.POST['uemail']
         username = req.POST['username']
-        edituser = User.objects.filter(id=uid).update(
+        User.objects.filter(id=uid).update(
             first_name=fname, last_name=lname, email=email, username=username)
-        # edituser.save()
         return redirect("profile", uid)
 
 
@@ -274,7 +282,6 @@ def payment(req,pid):
         if address is not None:
             order = Order(user_address = address, user_pin = pin,user_state = state,user_dist = dist,pro_name = pro_name,pro_price = price, user_id_id = k, status = "pending",user_email = email,user_fisrt_name = f_name,user_last_name = l_name)
             order.save()
-            # print(f_name, l_name,price,k)
             stripe.PaymentIntent.create(
                 description="Shopping",
                 shipping={
@@ -379,10 +386,10 @@ def cart_payment(req):
                 user = User.objects.get(id= k)
                 pro = Profile.objects.get(user_id = k)
                 qunt = checkdata.p_quantity
-                # print(int(tl))
-                # print(int(qunt))
-                if int(tl) <= int(qunt): 
-                     stripe.PaymentIntent.create(
+                total_item = int(tl)
+                data_item = int(qunt)
+                if total_item <= data_item: 
+                    stripe.PaymentIntent.create(
                     description="Shopping",
                     shipping={
                         "name": "Goutam Mahanti",
@@ -398,20 +405,23 @@ def cart_payment(req):
                         currency="usd",
                         payment_method_types=["card"],
                     )
-                data = int(qunt) - int(tl)
-                order = Order(user_address = pro.address, user_pin = pro.user_pin,user_state = pro.user_state,user_dist = pro.user_dist,pro_name = checkdata.p_name,pro_price = checkdata.p_price, user_id_id = k, status = "pending",user_email = user.email,user_fisrt_name = user.first_name,user_last_name = user.last_name)
-                order.save()
-                check = Product(p_quantity = str(data),id= pid,p_name = checkdata.p_name,p_category = checkdata.p_category,p_img = checkdata.p_img,p_desc = checkdata.p_desc,p_price = checkdata.p_price)
-                check.save()
-                AddToCart.objects.all().delete()
-                userpro ={}
-                wishes = Wishlist.objects.filter(user_id_id=k).count()
-                cart = AddToCart.objects.filter(user_id_id=k).count()
-                userpro['cart'] = cart
-                userpro['wish'] = wishes
-                temp=1
-        if temp == 1:
-            return render(req,"paymentsuccess.html",userpro)
-        else:
-            return redirect('cart_buy')
+                    data = int(qunt) - int(tl)
+                    order = Order(user_address = pro.address, user_pin = pro.user_pin,user_state = pro.user_state,user_dist = pro.user_dist,pro_name = checkdata.p_name,pro_price = checkdata.p_price, user_id_id = k, status = "pending",user_email = user.email,user_fisrt_name = user.first_name,user_last_name = user.last_name)
+                    order.save()
+                    check = Product(p_quantity = str(data),id= pid,p_name = checkdata.p_name,p_category = checkdata.p_category,p_img = checkdata.p_img,p_desc = checkdata.p_desc,p_price = checkdata.p_price)
+                    check.save()
+                    AddToCart.objects.filter(user_id_id=k).delete()
+                    userpro ={}
+                    wishes = Wishlist.objects.filter(user_id_id=k).count()
+                    cart = AddToCart.objects.filter(user_id_id=k).count()
+                    userpro['cart'] = cart
+                    userpro['wish'] = wishes
+                    return render(req,"paymentsuccess.html",userpro)
+                else:
+                    messages.error(req, 'Items are Out of Stock')
+                    return redirect('cart_buy')
+            else:
+                messages.error(req, 'No items are found')
+                return redirect('cart_buy')
+            
             
