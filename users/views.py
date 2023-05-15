@@ -254,15 +254,18 @@ def order_product(req,pid):
         return context
     userpro = {}
     k = req.session['uid']
-    user_profile = Profile.objects.get(user_id=k)
-    order_product = Product.objects.filter(id = pid)
-    wishes = Wishlist.objects.filter(user_id_id=k).count()
-    cart = AddToCart.objects.filter(user_id_id=k).count()
-    userpro['users'] = user_profile
-    userpro['pro'] = order_product
-    userpro['cart'] = cart
-    userpro['wish'] = wishes
-    return render(req,"order_product.html",userpro)
+    try:
+        user_profile = Profile.objects.get(user_id=k)
+        order_product = Product.objects.filter(id = pid)
+        wishes = Wishlist.objects.filter(user_id_id=k).count()
+        cart = AddToCart.objects.filter(user_id_id=k).count()
+        userpro['users'] = user_profile
+        userpro['pro'] = order_product
+        userpro['cart'] = cart
+        userpro['wish'] = wishes
+        return render(req,"order_product.html",userpro)
+    except:
+        return redirect('product',pid)
 
 
 #payment gateway implimentation..........................................
@@ -309,7 +312,7 @@ def payment(req,pid):
             userpro['wish'] = wishes
             return render(req,"paymentsuccess.html",userpro)
         else:
-            return
+            return redirect('product',pid)
     
 
 
