@@ -75,7 +75,6 @@ def home_index(req, id):
         pros = Product.objects.all()
         product = {'products': pros, 'wish': wishes, 'cart': cart}
         title['header'] = "OnShop"
-    # req.session['wishdatas'] = wishes
         req.session['uid'] = id
         return render(req, "home.html", product)
     except:
