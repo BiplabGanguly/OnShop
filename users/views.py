@@ -309,6 +309,7 @@ def payment(req,pid):
             cart = AddToCart.objects.filter(user_id_id=k).count()
             userpro['cart'] = cart
             userpro['wish'] = wishes
+            userpro['uid'] = k
             return render(req,"paymentsuccess.html",userpro)
         else:
             return redirect('product',pid)

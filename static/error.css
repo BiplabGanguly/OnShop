@@ -3,7 +3,7 @@ body{
     padding:0;
     font-family:"montserrat",sans-serif;
     min-height:100vh;
-    background-image:linear-gradient(125deg,#6a89cc,#b8e994);
+    background-image:#273746;
 }
 .container{
     width:100%;

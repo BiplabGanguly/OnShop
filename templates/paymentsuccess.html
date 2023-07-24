@@ -1,6 +1,18 @@
 {%extends 'home_temp.html'%} {%block 'home_temp'%} <br /><br /><br /><br />
-<center>
-    <h2 style="color: green;">Payment Successfull</h2>
-    <hr>
-</center>
+<div class="container justify-content-center">
+    <div class="row align-items-center">
+        <h2 style="color: white; font-size: 4rem; text-align: center;">Payment <span style="color: greenyellow;">Successfull</span> </h2>
+    </div>
+    <div class="row">
+        <p style="color: white; text-align: center;">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorum architecto, qui corporis hic error dolore non cupiditate dolorem repellendus,
+             doloribus voluptate recusandae iure pariatur! Praesentium vitae libero qui laborum quaerat!</p>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-2 justify-content-center">
+           <a href="{% url 'home' uid %}">
+            <button type="button" class="btn btn-outline-warning form-control"> Done!!</button>
+           </a> 
+        </div>
+    </div>
+</div>
 {%endblock%}

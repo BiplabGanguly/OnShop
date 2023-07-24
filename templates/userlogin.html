@@ -1,63 +1,48 @@
 {%extends 'template.html'%} {%block content%}
-<div class="container login-container" style="margin-top: 20vh; height: 60vh">
+<div class="container login-container">
   <div class="row">
     <div class="offset-md-3 col-md-6 login">
-      <div
-        class="login-panel"
-        style="background-color: #34495e; height: 60vh; border-radius: 10%"
-      >
-        <center>
-          <div class="loginform" style="padding-top: 1vh; width: 70vh">
-            <span
-              class="form-label fromlabel"
-              style="color: white; font-size: 5vh"
-              >Log In</span
-            >
-            <hr class="hr" style="color: white" />
-            <br />
-            <p style="color: whitesmoke">{{mess}} {{message}}</p>
-            <form
-              action="{% url 'login' %}"
-              method="post"
-              class="was-validated"
-            >
-              {%csrf_token%}
-              <input
-                type="email"
-                class="form-control"
-                placeholder="Email Here..."
-                name="useremail"
-                required
-              />
-              <br />
-              <input
-                type="text"
-                class="form-control"
-                placeholder="username..."
-                name="username"
-                required
-              />
-              <br />
-              <input
-                type="password"
-                class="form-control"
-                placeholder="password..."
-                name="userpass"
-                required
-              />
-              <br />
-              <button type="submit" class="btn btn-primary">Login</button>
-            </form>
+      <div class="login-panel"
+        style="background-color: transparent; height: 25rem; border-radius: 5%; box-shadow: 0 0 2rem black;">
+        <div class="row justify-content-center">
+          <div class="col-md-2 col-sm-4 align-items-center"
+            style="padding-top: .5rem;padding-bottom: .3rem; text-align: center;">
+            <span class="form-label fromlabel" style="color: white;">login</span>
           </div>
-        </center>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <hr class="hr" style="color: white" />
+          </div>
+        </div>
+
+        <p style="color: whitesmoke;text-align: center;">{{mess}} {{message}}</p>
+        <form action="{% url 'login' %}" method="post" class="was-validated">
+          {%csrf_token%}
+          <div class="row justify-content-center" style="margin-top: 1rem;">
+            <div class="col-md-8">
+              <input type="email" class="form-control" placeholder="Email Here..." name="useremail" required />
+            </div>
+          </div>
+          <div class="row justify-content-center" style="margin-top: 1rem;">
+            <div class="col-md-8">
+              <input type="text" class="form-control" placeholder="username..." name="username" required />
+            </div>
+          </div>
+          <div class="row justify-content-center" style="margin-top: 1rem;">
+            <div class="col-md-8">
+              <input type="password" class="form-control" placeholder="password..." name="userpass" required />
+            </div>
+          </div>
+          <div class="row justify-content-center" style="margin-top: 1rem; margin-bottom: 1rem;">
+            <div class="col-md-5">
+              <button type="submit" class="btn btn-outline-success form-control">login</button>
+            </div>
+          </div>
+        </form>
         <p class="register_hyper">
           click Here for new
-          <a
-            href="{%url 'register'%}"
-            class="register_link"
-            style="color: white"
-            >Register</a
-          >
+          <a href="{%url 'register'%}" class="register_link" style="color: white; text-decoration: none;">Register</a>
         </p>
       </div>
     </div>

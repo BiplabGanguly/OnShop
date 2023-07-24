@@ -1,80 +1,67 @@
 {%extends 'template.html'%} {%block content%}
-<div class="container register_con" style="margin-top: 10vh; height: 60vh">
+<div class="container register_con">
   <div class="row">
     <div class="offset-md-3 col-md-6 register">
-      <div
-        class="register_panel"
-        style="background-color: #34495e; height: 80vh; border-radius: 5%"
-      >
-        <center>
-          <div class="registerform" style="padding-top: 1vh; width: 80vh">
-            <span
-              class="form-label fromlabelregister"
-              style="color: white; font-size: 5vh"
-              >Sign Up</span
-            >
-            <hr class="hr" />
-            <br />
-            <p style="color:white"> {{mess}}</p>
-            <form
-              action="{% url 'usersign' %}"
-              method="POST"
-              class="was-validated"
-            >
-              {%csrf_token%}
-              <input
-                type="text"
-                class="form-control"
-                placeholder="First name Here..."
-                name="ufirstname"
-                required
-              />
-              <br />
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Last name Here..."
-                name="ulastname"
-                required
-              />
-              <br />
-              <input
-                type="email"
-                class="form-control"
-                placeholder="Email Here..."
-                name="useremail"
-                required
-              />
-              <br />
-              <input
-                type="text"
-                class="form-control"
-                placeholder="username..."
-                name="username"
-                required
-              />
-              <br />
-              <input
-                type="password"
-                class="form-control"
-                placeholder="password..."
-                name="userpass1"
-                required
-              />
-              <br />
-              <input
-                type="password"
-                class="form-control"
-                placeholder="confirm password..."
-                name="userpass2"
-                required
-              />
-              <br />
-              <input type="submit" class="btn btn-success" value="Signup" />
-            </form>
+      <div class="register_panel"
+        style="background-color: transparent; height: 80vh; border-radius: 5%; box-shadow: 0 0 3rem black;">
+        <div class="row justify-content-center">
+          <div class="col-md-2 col-sm-4 align-items-center"
+            style="padding-top: .5rem;padding-bottom: .3rem; text-align: center;">
+            <span class="form-label fromlabel" style="color: white;">Signup</span>
           </div>
-        </center>
-        <a href="{% url 'userlogin'%}" class="login_link"> go to login </a>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <hr class="hr" style="color: white" />
+          </div>
+        </div>
+        <p style="color:white"> {{mess}}</p>
+
+        <form action="{% url 'usersign' %}" method="POST" class="was-validated">
+          {%csrf_token%}
+          <div class="row justify-content-center" style="margin-top: 1rem;">
+            <div class="col-md-8">
+              <input type="text" class="form-control" placeholder="First name Here..." name="ufirstname" required />
+            </div>
+          </div>
+
+          <div class="row justify-content-center" style="margin-top: 1rem;">
+            <div class="col-md-8">
+              <input type="text" class="form-control" placeholder="Last name Here..." name="ulastname" required />
+            </div>
+          </div>
+
+          <div class="row justify-content-center" style="margin-top: 1rem;">
+            <div class="col-md-8">
+              <input type="email" class="form-control" placeholder="Email Here..." name="useremail" required />
+            </div>
+          </div>
+
+
+          <div class="row justify-content-center" style="margin-top: 1rem;">
+            <div class="col-md-8">
+              <input type="text" class="form-control" placeholder="username..." name="username" required />
+            </div>
+          </div>
+
+          <div class="row justify-content-center" style="margin-top: 1rem;">
+            <div class="col-md-8">
+              <input type="password" class="form-control" placeholder="password..." name="userpass1" required />
+            </div>
+          </div>
+
+          <div class="row justify-content-center" style="margin-top: 1rem;">
+            <div class="col-md-8">
+              <input type="password" class="form-control" placeholder="confirm password..." name="userpass2" required />
+            </div>
+          </div>
+          <div class="row justify-content-center" style="margin-top: 1rem; margin-bottom: 1rem;">
+            <div class="col-md-4">
+              <input type="submit" class="btn btn-outline-success form-control" value="Signup" />
+            </div>
+          </div>
+        </form>
+        <a href="{% url 'userlogin'%}" style="color: white; padding-left: 2.5rem; text-decoration: none;"> go to login </a>
       </div>
     </div>
   </div>

@@ -4,325 +4,223 @@
 <br />
 
 <!-- modal for add  address-->
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Address</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form class="was-validated" action="{%url 'useraddress' user.id%}" method="post">
         {%csrf_token%}
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6">
-            <textarea class="form-control" name="useraddrss" required></textarea>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <textarea class="form-control" name="useraddrss" required></textarea>
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="pin code" name="userpin" required />
+            </div>
           </div>
-          <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="pin code" name="userpin" required/>
+          <br />
+          <div class="row">
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="district" name="userdist" required />
+            </div>
+
+            <div class="col-md-6">
+              <select class="form-select" aria-label="Default select example" name="userstate" required>
+                <option selected>select states</option>
+                {%for s in state%}
+                <option value="{{s.state_name}}">{{s.state_name}}</option>
+                {%endfor%}
+              </select>
+            </div>
           </div>
         </div>
-        <br />
-        <div class="row">
-          <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="district" name="userdist" required/>
-          </div>
-      
-          <div class="col-md-6">
-            <select class="form-select" aria-label="Default select example" name="userstate" required>
-              <option selected>select states</option>
-              {%for s in state%}
-              <option value="{{s.state_name}}">{{s.state_name}}</option>
-              {%endfor%}
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          close
-        </button>
-        <button type="submit" class="btn btn-success">save</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            close
+          </button>
+          <button type="submit" class="btn btn-success">save</button>
       </form>
     </div>
-      </div>
-    </div>
   </div>
+</div>
+</div>
 </div>
 <!-- modal end -->
 
 <!-- modal for edit address -->
-<div
-  class="modal fade"
-  id="exampleModaledit"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="exampleModaledit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Edit Address</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="{%url 'edituseraddress' user.id%}" method="post">
         {%csrf_token%}
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6">
-            {%for i in userprofile %}
-            <textarea class="form-control" name="useraddrss">{{i.address}}</textarea>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              {%for i in userprofile %}
+              <textarea class="form-control" name="useraddrss">{{i.address}}</textarea>
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="pin code" name="userpin" value="{{i.user_pin}}" />
+            </div>
           </div>
-          <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="pin code" name="userpin"   value="{{i.user_pin}}" />
+          <br />
+          <div class="row">
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="district" name="userdist" value="{{i.user_dist}}" />
+            </div>
+
+            <div class="col-md-6">
+              <select class="form-select" aria-label="Default select example" name="userstate">
+                <option selected>{{i.user_state}}</option>
+                {%for s in state%}
+                <option value="{{s.state_name}}">{{s.state_name}}</option>
+                {%endfor%}
+              </select>
+            </div>
+            {%endfor%}
           </div>
         </div>
-        <br />
-        <div class="row">
-          <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="district" name="userdist" value="{{i.user_dist}}"/>
-          </div>
-      
-          <div class="col-md-6">
-            <select class="form-select" aria-label="Default select example" name="userstate">
-              <option selected>{{i.user_state}}</option>
-              {%for s in state%}
-              <option value="{{s.state_name}}">{{s.state_name}}</option>
-              {%endfor%}
-            </select>
-          </div>
-          {%endfor%}
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          close
-        </button>
-        <button type="submit" class="btn btn-success">save</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            close
+          </button>
+          <button type="submit" class="btn btn-success">save</button>
       </form>
     </div>
-      </div>
-    </div>
   </div>
+</div>
+</div>
 </div>
 
 <!-- end modal edit -->
 
 <!-- user edit modal -->
-<div
-  class="modal fade"
-  id="usereditmodal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="usereditmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">edit profile</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="{%url 'edituser' user.id%}" method="post">
         {%csrf_token%}
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6">
-            {%for i in userprofile %}
-            <input type="text" class="form-control" name="fname" value="{{user.first_name}}" />
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              {%for i in userprofile %}
+              <input type="text" class="form-control" name="fname" value="{{user.first_name}}" />
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" name="lname" value="{{user.last_name}}" />
+            </div>
           </div>
-          <div class="col-md-6">
-            <input type="text" class="form-control" name="lname"   value="{{user.last_name}}" />
+          <br />
+          <div class="row">
+            <div class="col-md-6">
+              <input type="text" class="form-control" name="uemail" value="{{user.email}}" />
+            </div>
+
+            <div class="col-md-6">
+              <input type="text" class="form-control" name="username" value="{{user.username}}" />
+            </div>
+            {%endfor%}
           </div>
         </div>
-        <br />
-        <div class="row">
-          <div class="col-md-6">
-            <input type="text" class="form-control" name="uemail" value="{{user.email}}"/>
-          </div>
-      
-          <div class="col-md-6">
-            <input type="text" class="form-control" name="username" value="{{user.username}}"/>
-          </div>
-          {%endfor%}
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          close
-        </button>
-        <button type="submit" class="btn btn-success">save</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            close
+          </button>
+          <button type="submit" class="btn btn-success">save</button>
       </form>
-    </div>
-      </div>
     </div>
   </div>
 </div>
+</div>
+</div>
 <!-- end user edit modal -->
 
-<div
-  class="d-grid gap-2 d-md-flex justify-content-md-end"
-  style="margin-right: 20px"
->
-<button
-type="button"
-class="btn btn-primary"
-data-bs-toggle="modal"
-data-bs-target="#usereditmodal"
->
-edit profile
-</button>
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#exampleModal"
-  >
+<div class="d-grid gap-2 d-md-flex justify-content-md-end" style="margin-right: 20px">
+  <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#usereditmodal">
+    edit profile
+  </button>
+  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Add address
   </button>
-  <button
-  type="button"
-  class="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#exampleModaledit"
-  id="editbtn"
->
-  Edit address
-</button>
-<a href="{% url 'logout'%}">
-  <button type="button" class="btn btn-outline-danger">logout</button>
-</a>
+  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#exampleModaledit" id="editbtn">
+    Edit address
+  </button>
+  <a href="{% url 'logout'%}">
+    <button type="button" class="btn btn-outline-light form-control">logout</button>
+  </a>
 </div>
 <center>
-  <h2>Profile</h2>
+  <h2 style="color: white; margin-top: 1rem;">Profile</h2>
 </center>
 <hr />
 <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <h4>first name</h4>
-      <input
-        class="form-control"
-        type="text"
-        value="{{user.first_name}}"
-        aria-label="Disabled input example"
-        disabled
-        readonly
-      />
+      <h4 style="color: white;">first name</h4>
+      <input class="form-control" type="text" value="{{user.first_name}}" aria-label="Disabled input example" disabled
+        readonly />
     </div>
     <div class="col-md-6">
-      <h4>last name</h4>
-      <input
-        class="form-control"
-        type="text"
-        value="{{user.last_name}}"
-        aria-label="Disabled input example"
-        disabled
-        readonly
-      />
+      <h4 style="color: white;">last name</h4>
+      <input class="form-control" type="text" value="{{user.last_name}}" aria-label="Disabled input example" disabled
+        readonly />
     </div>
   </div>
   <br />
   <div class="row">
     <div class="col-md-6">
-      <h4>e-mail</h4>
-      <input
-        class="form-control"
-        type="text"
-        value="{{user.email}}"
-        aria-label="Disabled input example"
-        disabled
-        readonly
-      />
+      <h4 style="color: white;">e-mail</h4>
+      <input class="form-control" type="text" value="{{user.email}}" aria-label="Disabled input example" disabled
+        readonly />
     </div>
     <div class="col-md-6">
-      <h4>username</h4>
-      <input
-        class="form-control"
-        type="text"
-        value="{{user.username}}"
-        aria-label="Disabled input example"
-        disabled
-        readonly
-      />
+      <h4 style="color: white;">username</h4>
+      <input class="form-control" type="text" value="{{user.username}}" aria-label="Disabled input example" disabled
+        readonly />
     </div>
   </div>
   <br /><br />
   <center>
-    <h2>Address</h2>
+    <h2 style="color: white;">Address</h2>
   </center>
   <hr />
   <div class="container">
     <div class="row">
       <div class="col-md-6">
         {%for i in userprofile %}
-        <h4>Address</h4>
-        <input
-          class="form-control"
-          type="text"
-          value="{{i.address}}"
-          aria-label="Disabled input example"
-          id = "uadd"
-          disabled
-          readonly
-        />
+        <h4 style="color: white;">Address</h4>
+        <input class="form-control" type="text" value="{{i.address}}" aria-label="Disabled input example" id="uadd"
+          disabled readonly />
       </div>
       <div class="col-md-6">
-        <h4>pin code</h4>
-        <input
-          class="form-control"
-          type="text"
-          value="{{i.user_pin}}"
-          aria-label="Disabled input example"
-          id="upin"
-          disabled
-          readonly
-        />
+        <h4 style="color: white;">pin code</h4>
+        <input class="form-control" type="text" value="{{i.user_pin}}" aria-label="Disabled input example" id="upin"
+          disabled readonly />
       </div>
     </div>
     <br />
     <div class="row">
       <div class="col-md-6">
-        <h4>district</h4>
-        <input
-          class="form-control"
-          type="text"
-          value="{{i.user_dist}}"
-          aria-label="Disabled input example"
-          disabled
-          readonly
-        />
+        <h4 style="color: white;">district</h4>
+        <input class="form-control" type="text" value="{{i.user_dist}}" aria-label="Disabled input example" disabled
+          readonly />
       </div>
       <div class="col-md-6">
-        <h4>state</h4>
-        <input
-          class="form-control"
-          type="text"
-          value="{{i.user_state}}"
-          aria-label="Disabled input example"
-          disabled
-          readonly
-        />
+        <h4 style="color: white;">state</h4>
+        <input class="form-control" type="text" value="{{i.user_state}}" aria-label="Disabled input example" disabled
+          readonly />
         {%endfor%}
       </div>
     </div>
@@ -330,16 +228,12 @@ edit profile
 
 
   <script>
-  var addr = document.getElementById("uadd").value;
-  if (addr != "" && upin != ""){
-    document.getElementById("addbtn").style.visibility = 'hidden';
-  }
-  else{
-    document.getElementById("editbtn").style.visibility = 'hidden';
-  }
+    var addr = document.getElementById("uadd").value;
+    if (addr != "" && upin != "") {
+      document.getElementById("addbtn").style.visibility = 'hidden';
+    }
+    else {
+      document.getElementById("editbtn").style.visibility = 'hidden';
+    }
   </script>
   {%endblock%}
-
- 
-
-

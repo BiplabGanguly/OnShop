@@ -1,100 +1,56 @@
 {%extends 'template.html'%} {%block content%}
 
-<nav
-  class="navbar navbar-expand-lg fixed-top"
-  style="background-color: #34495e"
->
+<nav class="navbar navbar-expand-lg fixed-top"
+  style="background-color: #273746; box-shadow: 0 0 1rem black; height: 4rem;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{%url 'home' user.id%}" style="color: white"
-      >OnShop</a
-    >
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <a class="navbar-brand" href="{%url 'home' user.id%}" style="color: white; font-size: 2rem;">OnShop</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="d-flex" style="margin-left: 40vh">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-          style="width: 60vh"
-          id="myFilter"
-          onkeyup="myFunction()"
-        />
+    <div class="collapse navbar-collapse justify-content-md-between" id="navbarSupportedContent"
+      style="background-color: #273746; width: 100%;border-radius: 6%;">
+      <div class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+          style="width: 20rem; margin-left: 2rem;" id="myFilter" onkeyup="myFunction()" />
       </div>
-      <ul
-        class="navbar-nav d-grid gap-2 d-md-flex justify-content-md-end"
-        style="margin-left: 42vh"
-      >
+      <ul class="navbar-nav d-grid gap-2 d-md-flex justify-content-center" style="margin-left: 2rem">
         <li class="nav-item">
           <form method="post" action="{%url 'wishlist' user.id%}">
             {%csrf_token%}
-            <button type="submit" class="btn btn-outline-primary">
+            <button type="submit" class="btn btn-outline-light form-control">
               WishList
-              <input
-                readonly
-                class="bg-secondary"
-                name="wishlist_val"
-                value="{{wish}}"
-                style="
+              <input readonly class="bg-secondary" name="wishlist_val" value="{{wish}}" style="
                   width: 22px;
                   height: 22px;
                   text-align: center;
                   border: none;
                   color: white;
                   border-radius: 4px;
-                "
-              />
+                " />
             </button>
           </form>
         </li>
         <li class="nav-item">
-          <a
-            type="button"
-            class="btn btn-outline-success"
-            href="{%url 'cart' user.id%}"
-          >
+          <a type="button" class="btn btn-outline-light form-control" href="{%url 'cart' user.id%}">
             Cart
-            <input
-              readonly
-              class="bg-secondary"
-              name="wishlist_val"
-              value="{{cart}}"
-              style="
+            <input readonly class="bg-secondary" name="wishlist_val" value="{{cart}}" style="
                 width: 22px;
                 height: 22px;
                 text-align: center;
                 border: none;
                 color: white;
                 border-radius: 4px;
-              "
-            />
+              " />
           </a>
         </li>
         <li>
-          <a
-            type="button"
-            class="btn btn-outline-warning"
-            href="{% url 'order_list' user.id%}"
-          >
+          <a type="button" class="btn btn-outline-info form-control" href="{% url 'order_list' user.id%}">
             Ord.
           </a>
         </li>
         <li class="nav-item">
-          <a
-            type="button"
-            class="btn btn-outline-info"
-            href="{%url 'profile' user.id %}"
-          >
+          <a type="button" class="btn btn-outline-warning form-control" href="{%url 'profile' user.id %}">
             {{user.first_name}}
           </a>
         </li>

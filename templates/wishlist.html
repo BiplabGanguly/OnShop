@@ -1,7 +1,7 @@
 {%extends 'home_temp.html'%} {%block 'home_temp'%} <br /><br /><br /><br />
 <div class="container">
   <div class="wish_title">
-    <h2 style="text-align: center">Wish List</h2>
+    <h2 style="text-align: center; color: white;">Wish List</h2>
     <!-- <p>Total - <input  readonly class="form-control" style="width: 200px;" id="text" value="00"></p> -->
     <hr />
   </div>
@@ -17,13 +17,12 @@
           class="img-fluid"
         />
       </td>
-      <td style="font-size: 20px;padding-top: 30px;">{{d.product_name}}</td>
-      <td style="font-size: 20px;padding-top: 30px;" id= "price">{{d.product_price}}</b></td>
-      <td style="font-size: 20px;padding-top: 30px;">{{d.category}}</td>
+      <td style="font-size: 1rem;padding-top: 30px; color: white;">{{d.product_name}}</td>
+      <td style="font-size: 1rem;padding-top: 30px; color: white;" id= "price">{{d.product_price}}</b></td>
       <td>
         <form action="{% url 'deletewish' d.id %}" method="post">
           {%csrf_token%}
-          <button type="submit" class="btn btn-outline-danger" style="margin-top: 20px;">delete</button>
+          <button type="submit" class="btn btn-outline-light" style="margin-top: 20px;">delete</button>
         </form>
       </td>
     </tr>

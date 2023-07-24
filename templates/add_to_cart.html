@@ -16,15 +16,15 @@
 </style>
 <div class="container">
   <div class="wish_title">
-    <h2 style="text-align: center">Cart</h2>
+    <h2 style="text-align: center; color: white;">Cart</h2>
     <br>
     <div class="row">
-      <div class="col-md-6">
-        <p>Total - <input  readonly class="form-control" style="width: 200px;" id="text" value="00"></p>
+      <div class="col-md-10">
+        <p style="color: white; font-size: 1.2rem;">Total - <span style="color: white;" id="money"></span> </p>
       </div>
-      <div class="col-md-6" style="padding-left: 500px; padding-top: 20px;">
+      <div class="col-md-2">
         <a href="{% url 'cart_buy' %}">
-          <button type="submit" class="btn btn-outline-success">Buy Now</button>
+          <button type="submit" class="btn btn-outline-warning form-control">Buy Now</button>
         </a>
       </div>
     </div>
@@ -42,13 +42,12 @@
           class="img-fluid"
         />
       </td>
-      <td style="font-size: 20px;padding-top: 30px;" name="p_name">{{d.product_name}}</td>
-      <td style="font-size: 20px;padding-top: 30px;" id= "price"  name="price">{{d.product_price}}</b></td>
-      <td style="font-size: 20px;padding-top: 30px;" name="cate">{{d.category}}</td>
+      <td style="font-size: 1rem;padding-top: 30px; color: white;" name="p_name">{{d.product_name}}</td>
+      <td style="font-size: 1rem;padding-top: 30px; color: white;" id= "price"  name="price">{{d.product_price}}</b></td>
       <td>
         <form action="{% url 'deletecart' d.id %}" method="post">
           {%csrf_token%}
-          <button type="submit" class="btn btn-outline-danger" style="margin-top: 20px;">delete</button>
+          <button type="submit" class="btn btn-outline-info" style="margin-top: 20px;">delete</button>
         </form>
       </td>
     </tr>
@@ -66,7 +65,7 @@ for (let i = 0; i < rows.length; i++) {
   price += parseInt(rows[i].cells[2].firstChild.data);
   }
 
-  document.getElementById("text").value = price;
+  document.getElementById("money").innerText = price;
 }
 
 </script>
