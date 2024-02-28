@@ -78,7 +78,7 @@ def home_index(req, id):
         req.session['uid'] = id
         return render(req, "home.html", product)
     except:
-        return render(req, 'error.html', status=404)
+        return render(req, '404.html', status=404)
 
 
 data = {}
@@ -287,7 +287,7 @@ def payment(req,pid):
             stripe.PaymentIntent.create(
                 description="Shopping",
                 shipping={
-                    "name": "Goutam Mahanti",
+                    "name": "Biplab Ganguly",
                     "address": {
                         "line1": "510 Townsend St",
                         "postal_code": "723132",
@@ -378,13 +378,15 @@ def cart_buy(req):
 
 @login_required(login_url='/')
 def cart_payment(req):
-    temp=0
     k = req.session['uid']
     if req.method == "POST":
+        # print(len(req.POST))
+        # tl = req.POST.get(f'total_{2}')
+        # print(tl)
         for i in range(1, len(req.POST)):
             pid = req.POST.get(f'pid_{i}')
             tl = req.POST.get(f'total_{i}')
-            if(pid is not None and tl is not None):
+            if(pid is not None):
                 checkdata = Product.objects.get(id = pid)
                 user = User.objects.get(id= k)
                 pro = Profile.objects.get(user_id = k)
@@ -395,7 +397,7 @@ def cart_payment(req):
                     stripe.PaymentIntent.create(
                     description="Shopping",
                     shipping={
-                        "name": "Goutam Mahanti",
+                        "name": "Biplab Ganguly",
                         "address": {
                         "line1": "510 Townsend St",
                         "postal_code": "723132",
@@ -419,6 +421,7 @@ def cart_payment(req):
                     cart = AddToCart.objects.filter(user_id_id=k).count()
                     userpro['cart'] = cart
                     userpro['wish'] = wishes
+                    userpro['uid'] = k
                     return render(req,"paymentsuccess.html",userpro)
                 else:
                     messages.error(req, 'Items are Out of Stock')
