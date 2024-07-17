@@ -74,7 +74,7 @@ def home_index(req, id):
         cart = AddToCart.objects.filter(user_id_id=id).count()
         pros = Product.objects.all()
         product = {'products': pros, 'wish': wishes, 'cart': cart}
-        title['header'] = "OnShop"
+        product['header'] = "OnShop"
         req.session['uid'] = id
         return render(req, "home.html", product)
     except:
@@ -92,7 +92,7 @@ def user_profile(req, id):
         cart = AddToCart.objects.filter(user_id_id=id).count()
         profile = {'userprofile': user_profile,
                'state': state, 'wish': wishes, 'cart': cart}
-        title['header'] = "Profile"
+        profile['header'] = "Profile"
         return render(req, "user_profile.html", profile)
     except:
         return render(req, 'error.html', status=404)
