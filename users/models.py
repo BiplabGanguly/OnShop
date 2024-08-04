@@ -32,6 +32,7 @@ class Order(models.Model):
     pro_name = models.CharField(max_length=255)
     pro_price = models.CharField(max_length=255)
     status = models.CharField(max_length=255)
+    pro_quantity =  models.CharField(max_length=255,default=None)
 
     def __str__(self) -> str:
         return self.user_id.first_name

@@ -1,23 +1,26 @@
-{%extends 'home_temp.html'%} {%block 'home_temp'%} <br /><br /><br /><br >
+{%extends 'home_temp.html'%} {%block 'home_temp'%} <br /><br /><br /><br>
 <div class="container">
     <a href="{% url 'order_hist' %}">
         <button type="button" class="btn btn-outline-warning">Ord.History</button>
     </a>
 
-<center>
-    <h2 style="color: white;">Order List</h2>
-</center>
-<hr>
+    <center>
+        <h2 style="color: white;">Order List</h2>
+    </center>
+    <hr>
     <table class="table table-hover">
         {% for data in order_data %}
         <tr>
             <td><b style="color: white;">{{data.pro_name}}</b></td>
             <td><b><i style="color: white;">{{data.pro_price}}</i></b></td>
+            <td><b style="color: white;">{{data.pro_quantity}}</b></td>
             <td><b style="color: white;">{{data.status}}</b></td>
-            <td><form action="{% url 'receive' data.id %}" method="post">
-                {%csrf_token%}
-                <button type="submit" class="btn btn-outline-info">Received</button>
-            </form></td>
+            <td>
+                <form action="{% url 'receive' data.id %}" method="post">
+                    {%csrf_token%}
+                    <button type="submit" class="btn btn-outline-info">Received</button>
+                </form>
+            </td>
         </tr>
         {%endfor%}
     </table>

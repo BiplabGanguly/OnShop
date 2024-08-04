@@ -64,28 +64,28 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-6">
-              {%for i in userprofile %}
-              <textarea class="form-control" name="useraddrss">{{i.address}}</textarea>
+              <textarea class="form-control" name="useraddrss">{{userprofile.address}}</textarea>
             </div>
             <div class="col-md-6">
-              <input type="text" class="form-control" placeholder="pin code" name="userpin" value="{{i.user_pin}}" />
+              <input type="text" class="form-control" placeholder="pin code" name="userpin"
+                value="{{userprofile.user_pin}}" />
             </div>
           </div>
           <br />
           <div class="row">
             <div class="col-md-6">
-              <input type="text" class="form-control" placeholder="district" name="userdist" value="{{i.user_dist}}" />
+              <input type="text" class="form-control" placeholder="district" name="userdist"
+                value="{{userprofile.user_dist}}" />
             </div>
 
             <div class="col-md-6">
               <select class="form-select" aria-label="Default select example" name="userstate">
-                <option selected>{{i.user_state}}</option>
+                <option selected>{{userprofile.user_state}}</option>
                 {%for s in state%}
                 <option value="{{s.state_name}}">{{s.state_name}}</option>
                 {%endfor%}
               </select>
             </div>
-            {%endfor%}
           </div>
         </div>
         <div class="modal-footer">
@@ -110,12 +110,11 @@
         <h5 class="modal-title" id="exampleModalLabel">edit profile</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="{%url 'edituser' user.id%}" method="post">
+      <form action="{%url 'edituser' %}" method="post">
         {%csrf_token%}
         <div class="modal-body">
           <div class="row">
             <div class="col-md-6">
-              {%for i in userprofile %}
               <input type="text" class="form-control" name="fname" value="{{user.first_name}}" />
             </div>
             <div class="col-md-6">
@@ -131,7 +130,6 @@
             <div class="col-md-6">
               <input type="text" class="form-control" name="username" value="{{user.username}}" />
             </div>
-            {%endfor%}
           </div>
         </div>
         <div class="modal-footer">
@@ -146,15 +144,19 @@
 </div>
 </div>
 <!-- end user edit modal -->
+<div id="profile_check" hidden>{{userprofile}}</div>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="margin-right: 20px">
   <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#usereditmodal">
     edit profile
   </button>
-  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+    id="addbtn" style="position: absolute;
+    right: 6rem;">
     Add address
   </button>
-  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#exampleModaledit" id="editbtn">
+  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#exampleModaledit"
+    id="editbtn">
     Edit address
   </button>
   <a href="{% url 'logout'%}">
@@ -199,41 +201,42 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        {%for i in userprofile %}
         <h4 style="color: white;">Address</h4>
-        <input class="form-control" type="text" value="{{i.address}}" aria-label="Disabled input example" id="uadd"
-          disabled readonly />
+        <input class="form-control" type="text" value="{{userprofile.address}}" aria-label="Disabled input example"
+          id="uadd" disabled readonly />
       </div>
       <div class="col-md-6">
         <h4 style="color: white;">pin code</h4>
-        <input class="form-control" type="text" value="{{i.user_pin}}" aria-label="Disabled input example" id="upin"
-          disabled readonly />
+        <input class="form-control" type="text" value="{{userprofile.user_pin}}" aria-label="Disabled input example"
+          id="upin" disabled readonly />
       </div>
     </div>
     <br />
     <div class="row">
       <div class="col-md-6">
         <h4 style="color: white;">district</h4>
-        <input class="form-control" type="text" value="{{i.user_dist}}" aria-label="Disabled input example" disabled
-          readonly />
+        <input class="form-control" type="text" value="{{userprofile.user_dist}}" aria-label="Disabled input example"
+          disabled readonly />
       </div>
       <div class="col-md-6">
         <h4 style="color: white;">state</h4>
-        <input class="form-control" type="text" value="{{i.user_state}}" aria-label="Disabled input example" disabled
-          readonly />
-        {%endfor%}
+        <input class="form-control" type="text" value="{{userprofile.user_state}}" aria-label="Disabled input example"
+          disabled readonly />
+        <br /><br /><br />
       </div>
     </div>
   </div>
 
 
   <script>
-    var addr = document.getElementById("uadd").value;
-    if (addr != "" && upin != "") {
-      document.getElementById("addbtn").style.visibility = 'hidden';
+    let profile_check = document.getElementById('profile_check').innerHTML;
+    console.log(profile_check)
+
+    if (profile_check == 'None') {
+      document.getElementById("editbtn").style.visibility = 'hidden';
     }
     else {
-      document.getElementById("editbtn").style.visibility = 'hidden';
+      document.getElementById("addbtn").style.visibility = 'hidden';
     }
   </script>
   {%endblock%}

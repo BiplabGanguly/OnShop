@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include,re_path
-from django.conf.urls import handler404, handler500
 from shopping import views
 from shopping.views import page_not_found_view
 

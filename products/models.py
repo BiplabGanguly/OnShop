@@ -10,7 +10,7 @@ class Product(models.Model):
     p_img = models.FileField(upload_to="")
 
     def __str__(self):
-        return self.p_name
+        return f"{self.p_name}  ||  ₹{self.p_price}"
 
 
 class Wishlist(models.Model):

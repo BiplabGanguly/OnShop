@@ -21,40 +21,38 @@
         </p>
       </div>
       <span style="color: white;">only at rupees</span>
-       <span style="color: white;">{{product.p_price}}</span><br />
+      <span style="color: white;">₹{{product.p_price}}</span><br />
 
-      {% if product.p_quantity <= '0' %}
-      <span style="color: white;">Unavailable</span>
-      {%else%}
-      <span style="color: white;">Buy now! only </span>
-      <span style="color: white;">{{product.p_quantity}}</span> <span style="color: white;">are left!!</span> <br /><br />
-      {%endif%}
-      <div class="des" style="color: white;">{{product.p_desc}}</div>
-      <br /><br />
-      {% if product.p_quantity <= '0' %}
-      {%else%}
-      <div class="d-grid gap-2 d-md-flex justify-content-md">
-        <a href="{% url 'orderpro' product.id %}">
-          <button class="btn btn-outline-warning me-md-2" type="button">
-            Buy Now
-          </button>
+      {% if product.p_quantity <= '0' %} <span style="color: white;">Unavailable</span>
+        {%else%}
+        <span style="color: white;">Buy now! only </span>
+        <span style="color: white;">{{product.p_quantity}}</span> <span style="color: white;">are left!!</span>
+        <br /><br />
+        {%endif%}
+        <div class="des" style="color: white;">{{product.p_desc}}</div>
+        <br /><br />
+        {% if product.p_quantity <= '0' %} {%else%} <div class="d-grid gap-2 d-md-flex justify-content-md">
+          <a href="{% url 'orderpro' product.id %}">
+            <button class="btn btn-outline-warning me-md-2" type="button">
+              Buy Now
+            </button>
 
-        </a>
+          </a>
 
-        <form action="{% url 'cartdata' product.id %}" method="post">
-          {%csrf_token%}
-          <button class="btn btn-outline-info" type="submit">
-            Add To Cart
-          </button>
-        </form>
-      </div>
-      {%endif%}
+          <form action="{% url 'cartdata' product.id %}" method="post">
+            {%csrf_token%}
+            <button class="btn btn-outline-info" type="submit">
+              Add To Cart
+            </button>
+          </form>
     </div>
+    {%endif%}
   </div>
-  <p style="text-align: justify;color: white;"> 
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae mollitia
-    ipsum sint numquam at odio impedit quis alias voluptatibus non. Odit unde at
-    in quia iste magni earum debitis culpa.
-  </p>
+</div>
+<p style="text-align: justify;color: white;">
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae mollitia
+  ipsum sint numquam at odio impedit quis alias voluptatibus non. Odit unde at
+  in quia iste magni earum debitis culpa.
+</p>
 </div>
 {%endblock%}

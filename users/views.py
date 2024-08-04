@@ -47,19 +47,22 @@ def user_sign_up_post(req):
 
 dect = {}
 def login_user_post(req):
-    if req.method == "POST":
-        username = req.POST['username']
-        userpass = req.POST['userpass']
-        useremail = req.POST['useremail']
-        user = authenticate(username=username,
-                            password=userpass, email=useremail)
+        if req.method == "POST":
+            username = req.POST['username']
+            userpass = req.POST['userpass']
+            if username == "" and userpass == "":
+                dect['message'] = "Invalid"
+                return render(req, "userlogin.html", dect)
+            user = authenticate(username=username,password=userpass)
 
-        if user is not None:
-            login(req, user)
-            return redirect("home", user.id)
-        else:
-            dect['message'] = "Invalid"
-            return render(req, "userlogin.html", dect)
+            if user is not None:
+                login(req, user)
+                req.session['uid'] = user.id
+                return redirect("home")
+            else:
+                dect['message'] = "Invalid"
+                return render(req, "userlogin.html", dect)
+        return render(req, '404.html', status=404)
 
 
 def log_out(req):
@@ -68,14 +71,14 @@ def log_out(req):
 
 
 @login_required(login_url='/')
-def home_index(req, id):
+def home_index(req):
+    id = req.session['uid']
     try:
         wishes = Wishlist.objects.filter(user_id_id=id).count()
         cart = AddToCart.objects.filter(user_id_id=id).count()
         pros = Product.objects.all()
         product = {'products': pros, 'wish': wishes, 'cart': cart}
         product['header'] = "OnShop"
-        req.session['uid'] = id
         return render(req, "home.html", product)
     except:
         return render(req, '404.html', status=404)
@@ -84,22 +87,34 @@ def home_index(req, id):
 data = {}
 # User Profile functions..................................
 @login_required(login_url='/')
-def user_profile(req, id):
+def user_profile(req):
+    user_id = req.session['uid']
     try:
-        user_profile = Profile.objects.filter(user_id=id)
+        try:
+            user_profile = Profile.objects.get(user_id=user_id)
+        except Profile.DoesNotExist:
+            user_profile = None
+        user = User.objects.get(id = user_id)
         state = State.objects.all()
-        wishes = Wishlist.objects.filter(user_id_id=id).count()
-        cart = AddToCart.objects.filter(user_id_id=id).count()
-        profile = {'userprofile': user_profile,
-               'state': state, 'wish': wishes, 'cart': cart}
-        profile['header'] = "Profile"
-        return render(req, "user_profile.html", profile)
-    except:
-        return render(req, 'error.html', status=404)
+        wishes_count = Wishlist.objects.filter(user_id_id=user_id).count()
+        cart_count = AddToCart.objects.filter(user_id_id=user_id).count()
+        context = {
+            'userprofile': user_profile,
+            'state': state,
+            'wish': wishes_count,
+            'cart': cart_count,
+            'header': "Profile",
+            "user": user
+        }
+        return render(req, "user_profile.html", context)
+    
+    except User.DoesNotExist:
+        return render(req, '404.html', status=404)
 
 
 @login_required(login_url='/')
-def useraddrss(req, id):
+def useraddrss(req,id):
+    id = req.session['uid']
     if req.method == "POST":
         useraddrss = req.POST['useraddrss']
         userpin = req.POST['userpin']
@@ -108,11 +123,12 @@ def useraddrss(req, id):
         prof = Profile(user_id=id, address=useraddrss,
                        user_pin=userpin, user_dist=userdist, user_state=userstate)
         prof.save()
-        return redirect("profile", id)
+        return redirect("profile")
 
 
 @login_required(login_url='/')
-def edituseraddrss(req, id):
+def edituseraddrss(req,id):
+    id = req.session['uid']
     p = Profile.objects.get(user_id=id)
     if req.method == "POST":
         useraddrss = req.POST['useraddrss']
@@ -123,14 +139,15 @@ def edituseraddrss(req, id):
             prof = Profile(id=p.id, user_id=id, address=useraddrss,
                        user_pin=userpin, user_dist=userdist, user_state=userstate)
             prof.save()
-            return redirect("profile", id)
+            return redirect("profile")
         except:
-            return redirect("profile", id)
+            return redirect("profile")
 
 
 # edit profile.............................................
 @login_required(login_url='/')
-def editUserProfile(req, uid):
+def editUserProfile(req):
+    uid = req.session['uid']
     if req.method == "POST":
         fname = req.POST['fname']
         lname = req.POST['lname']
@@ -138,7 +155,7 @@ def editUserProfile(req, uid):
         username = req.POST['username']
         User.objects.filter(id=uid).update(
             first_name=fname, last_name=lname, email=email, username=username)
-        return redirect("profile", uid)
+        return redirect("profile")
 
 
 # products...............................................
@@ -159,7 +176,7 @@ def wishlist(req, id):
     if req.method == "POST":
         wishlist_val = req.POST['wishlist_val']
         if wishlist_val == '0':
-            return redirect('home', id)
+            return redirect('home')
         else:
             wishes = Wishlist.objects.filter(user_id_id=id).count()
             cart = AddToCart.objects.filter(user_id_id=id).count()
@@ -181,12 +198,12 @@ def add_wishlist(req, pid):
         count = 0
     if req.method == "POST":
         if count == 1:
-            return redirect('home', k)
+            return redirect('home')
         else:
             wish = Wishlist(user_id_id=k, product_id_id=pid, p_img=getpro.p_img,
                             product_category=getpro.p_category, product_name=getpro.p_name, product_price=getpro.p_price)
             wish.save()
-            return redirect('home', k)
+            return redirect('home')
 
 
 @login_required(login_url='/')
@@ -226,7 +243,7 @@ def add_cart_data(req, pid):
         cart = AddToCart(user_id_id=k, product_id_id=pid, p_img=getpro.p_img,
                              product_category=getpro.p_category, product_name=getpro.p_name, product_price=getpro.p_price)
         cart.save()
-        return redirect('home', k)
+        return redirect('home')
 
 
 @login_required(login_url='/')
@@ -380,12 +397,10 @@ def cart_buy(req):
 def cart_payment(req):
     k = req.session['uid']
     if req.method == "POST":
-        # print(len(req.POST))
-        # tl = req.POST.get(f'total_{2}')
-        # print(tl)
         for i in range(1, len(req.POST)):
             pid = req.POST.get(f'pid_{i}')
             tl = req.POST.get(f'total_{i}')
+            print(pid, tl)
             if(pid is not None):
                 checkdata = Product.objects.get(id = pid)
                 user = User.objects.get(id= k)
@@ -411,23 +426,22 @@ def cart_payment(req):
                         payment_method_types=["card"],
                     )
                     data = int(qunt) - int(tl)
-                    order = Order(user_address = pro.address, user_pin = pro.user_pin,user_state = pro.user_state,user_dist = pro.user_dist,pro_name = checkdata.p_name,pro_price = checkdata.p_price, user_id_id = k, status = "pending",user_email = user.email,user_fisrt_name = user.first_name,user_last_name = user.last_name)
+                    order = Order(user_address = pro.address, user_pin = pro.user_pin,user_state = pro.user_state,user_dist = pro.user_dist,pro_name = checkdata.p_name,pro_price = checkdata.p_price, user_id_id = k, status = "pending",user_email = user.email,user_fisrt_name = user.first_name,user_last_name = user.last_name,pro_quantity = tl )
                     order.save()
                     check = Product(p_quantity = str(data),id= pid,p_name = checkdata.p_name,p_category = checkdata.p_category,p_img = checkdata.p_img,p_desc = checkdata.p_desc,p_price = checkdata.p_price)
                     check.save()
                     AddToCart.objects.filter(user_id_id=k).delete()
-                    userpro ={}
-                    wishes = Wishlist.objects.filter(user_id_id=k).count()
-                    cart = AddToCart.objects.filter(user_id_id=k).count()
-                    userpro['cart'] = cart
-                    userpro['wish'] = wishes
-                    userpro['uid'] = k
-                    return render(req,"paymentsuccess.html",userpro)
                 else:
                     messages.error(req, 'Items are Out of Stock')
                     return redirect('cart_buy')
             else:
                 messages.error(req, 'No items are found')
-                return redirect('cart_buy')
-            
+                return redirect('cart_buy')     
+        userpro ={}
+        wishes = Wishlist.objects.filter(user_id_id=k).count()
+        cart = AddToCart.objects.filter(user_id_id=k).count()
+        userpro['cart'] = cart
+        userpro['wish'] = wishes
+        userpro['uid'] = k
+        return render(req,"paymentsuccess.html",userpro)
             
