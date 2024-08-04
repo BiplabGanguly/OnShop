@@ -299,7 +299,7 @@ def payment(req,pid):
         pro_name = req.POST['pro_name']
         price = req.POST['price']
         if address is not None:
-            order = Order(user_address = address, user_pin = pin,user_state = state,user_dist = dist,pro_name = pro_name,pro_price = price, user_id_id = k, status = "pending",user_email = email,user_fisrt_name = f_name,user_last_name = l_name)
+            order = Order(user_address = address, user_pin = pin,user_state = state,user_dist = dist,pro_name = pro_name,pro_price = price, user_id_id = k, status = "pending",user_email = email,user_fisrt_name = f_name,user_last_name = l_name,pro_quantity = str(1))
             order.save()
             stripe.PaymentIntent.create(
                 description="Shopping",
@@ -435,13 +435,16 @@ def cart_payment(req):
                     messages.error(req, 'Items are Out of Stock')
                     return redirect('cart_buy')
             else:
-                messages.error(req, 'No items are found')
-                return redirect('cart_buy')     
-        userpro ={}
-        wishes = Wishlist.objects.filter(user_id_id=k).count()
-        cart = AddToCart.objects.filter(user_id_id=k).count()
-        userpro['cart'] = cart
-        userpro['wish'] = wishes
-        userpro['uid'] = k
-        return render(req,"paymentsuccess.html",userpro)
+                if i <= len(req.POST):
+                    userpro ={}
+                    wishes = Wishlist.objects.filter(user_id_id=k).count()
+                    cart = AddToCart.objects.filter(user_id_id=k).count()
+                    userpro['cart'] = cart
+                    userpro['wish'] = wishes
+                    userpro['uid'] = k
+                    return render(req,"paymentsuccess.html",userpro)
+                else:
+                    messages.error(req, 'No items are found')
+                    return redirect('cart_buy')     
+    
             
